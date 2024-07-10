@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.login-input::placeholder {
+	content: '';
+	padding-left: 1rem;
+}

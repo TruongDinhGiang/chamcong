@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.login-input::-webkit-input-placeholder {
+  content: "";
+  padding-left: 1rem;
+}
+.login-input::-moz-placeholder {
+  content: "";
+  padding-left: 1rem;
+}
+.login-input:-ms-input-placeholder {
+  content: "";
+  padding-left: 1rem;
+}
+.login-input::-ms-input-placeholder {
+  content: "";
+  padding-left: 1rem;
+}
+.login-input::placeholder {
+  content: "";
+  padding-left: 1rem;
+}
