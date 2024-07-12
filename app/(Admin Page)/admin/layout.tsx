@@ -1,8 +1,8 @@
-import SideNav from '../ui/Home/SideNav';
+import SideNav from '../../ui/Home/SideNav';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<div>
+		<div className="flex">
 			<SideNav />
 			{children}
 		</div>
