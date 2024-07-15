@@ -2,7 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+	font-family: Mediative;
+	src: url(/Fonts/Meditative.ttf);
+}
+
+@font-face {
+	font-family: Heavitas;
+	src: url(/Fonts/Heavitas.ttf);
+}
+
 .login-input::placeholder {
 	content: '';
 	padding-left: 1rem;
+}
+
+.mediative {
+	font-family: Mediative;
+}
+
+.heavitas {
+	font-family: Heavitas;
 }
