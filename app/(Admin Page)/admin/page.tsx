@@ -1,6 +1,7 @@
 import { faUser as UserSolid, faQuestion, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faUser as UserRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getTodayEmployeeStatus } from '@/app/libs/actions';
 
 import RenderChart from '@/app/ui/Admin/RenderChart';
 
@@ -25,6 +26,7 @@ function DashboardDetail({
 }
 
 export default async function Page() {
+	getTodayEmployeeStatus();
 	return (
 		<>
 			<div className="relative bg-white w-full h-fit">
