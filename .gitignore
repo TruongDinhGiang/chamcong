@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#seeding user
+seed.*
+
+#login api for testing
+api/setcookie/route.ts
