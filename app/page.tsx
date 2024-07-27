@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import LOGO from '@/public/Images/LOGO CTY.png';
+import { Heavitas } from '@/app/ui/Style/Font/fonts';
 
 import { Metadata } from 'next';
 export const metadata: Metadata = {
@@ -24,7 +25,9 @@ export default function Page() {
 					href="/login"
 					id="LoginButton"
 					className="transition-colors hover:[&]:text-black hover:bg-gray-400 w-[30%] h-fit rounded-full border-solid border-gray-400 border-[1px]">
-					<p className=" p-5 text-center text-[35px] font-semibold heavitas">login</p>
+					<p style={Heavitas.style} className=" p-5 text-center text-[35px] font-semibold heavitas">
+						login
+					</p>
 				</Link>
 			</div>
 		</main>
