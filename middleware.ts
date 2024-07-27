@@ -10,6 +10,12 @@ export default async function middleware(req: NextRequest) {
 	if (!data.success && path !== '/login' && path !== '/') {
 		return NextResponse.redirect(new URL('/login', req.url));
 	}
+	if (path === '/login' && data.success) {
+		return NextResponse.redirect(new URL('/home', req.url));
+	}
+	if (path === '/login' && data.success && role === 'Admin') {
+		return NextResponse.redirect(new URL('/admin', req.url));
+	}
 	if (path.split('/')[1] === 'admin' && role !== 'Admin') {
 		return NextResponse.redirect(new URL('/home', req.url));
 	}

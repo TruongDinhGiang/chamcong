@@ -77,16 +77,6 @@ export async function handleLogin(prevState: State, formData: FormData) {
 		progress: 'done',
 	};
 
-	//*Check if user is logged in before, if yes than user doesn't have to re-login
-	const currentUserName = cookies().get('currentUserName');
-	const currentUserRole = cookies().get('currentUserRole');
-
-	if (currentUserName && currentUserRole) {
-		status.message = 'Đăng nhập thành công';
-		status.success = true;
-		redirect(currentUserRole.value == 'Admin' ? '/admin' : '/home');
-	}
-
 	//*Parse login form
 	const parsedData = schema.safeParse({
 		username: formData.get('username') || null,
