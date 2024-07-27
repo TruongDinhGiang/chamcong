@@ -39,4 +39,4 @@ next-env.d.ts
 seed.*
 
 #login api for testing
-api/setcookie/route.ts
+# api/setcookie/route.ts
