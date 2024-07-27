@@ -6,8 +6,6 @@ import Image from 'next/image';
 import LoadingGIF from '@/public/GIF/loadingGif.gif';
 
 import clsx from 'clsx';
-import { NextComponentType } from 'next';
-
 export default function Page() {
 	//*Defining waiting Message as a GIF and bind to Image element
 	const waitingMessage = useRef<null | HTMLImageElement>(null);

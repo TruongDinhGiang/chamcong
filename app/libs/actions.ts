@@ -84,7 +84,7 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	if (currentUserName && currentUserRole) {
 		status.message = 'Đăng nhập thành công';
 		status.success = true;
-		return status;
+		redirect(currentUserRole.value == 'Admin' ? '/admin' : '/home');
 	}
 
 	//*Parse login form
