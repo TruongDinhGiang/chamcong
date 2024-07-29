@@ -7,6 +7,6 @@ export async function GET(req: NextRequest) {
 	// console.log(req.cookies.toString().split(';')[0]);
 	// console.log(headers);
 	return Response.json({
-		data: req.cookies.toString().split(';')[0],
+		data: req.cookies.toString(),
 	});
 }
