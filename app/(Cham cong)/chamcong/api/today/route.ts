@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 	const currentUser = data.get('currentUserName')!.value;
 
 	const todayDay = new Date().toLocaleDateString('vi-vn').split('/');
-	const time = new Date().toLocaleTimeString('vi-vn');
+	const time = new Date().toLocaleTimeString('vi-vn').split(':');
 	const workHourTime = Number(time[0]);
 
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
@@ -37,12 +37,11 @@ export async function GET(req: NextRequest) {
 			.insertInto(tableName)
 			.values({
 				Name: currentUser,
-				Time: time,
+				Time: workHourTime,
 				isLate: workHourTime > 8 ? true : false,
 			})
 			.execute());
-	// await db.deleteFrom(tableName).where('Name', '=', 'Tùng').execute();
+	// await db.deleteFrom(tableName).where('Name', '=', 'Sang').execute();
 	revalidatePath(req.url + '/chamcong/success');
-	// Router.push('/chamcong/success');
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
 }
