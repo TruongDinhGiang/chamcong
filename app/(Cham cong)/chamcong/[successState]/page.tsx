@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { useEffect, useState } from 'react';
 
 import successGIF from '@/public/GIF/successGIF.gif';
@@ -9,7 +8,7 @@ import failedGIF from '@/public/GIF/failedGIF.gif';
 import { bgColor } from './bgConfig';
 import Timer from './setTimer';
 
-export default function Page(params: Params) {
+export default function Page(params: any) {
 	const { successState } = params.params;
 	const [pagePreset, setPagePreset] = useState({
 		color: '',
