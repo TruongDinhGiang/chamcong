@@ -32,16 +32,23 @@ export async function GET(req: NextRequest) {
 	// 	.addColumn('isLate', 'boolean')
 	// 	.execute();
 
-	!(await checkIfAlreadyCheckin(tableName, currentUser)) &&
-		(await db
-			.insertInto(tableName)
-			.values({
-				Name: currentUser,
-				Time: workHourTime,
-				isLate: workHourTime > 8 ? true : false,
-			})
-			.execute());
-	// await db.deleteFrom(tableName).where('Name', '=', 'Sang').execute();
+	// !(await checkIfAlreadyCheckin(tableName, currentUser)) &&
+	// 	(await db
+	// 		.insertInto(tableName)
+	// 		.values({
+	// 			Name: currentUser,
+	// 			Time: workHourTime,
+	// 			isLate: workHourTime > 8 ? true : false,
+	// 		})
+	// 		.execute());
+	// await db.deleteFrom(tableName).where('Name', '=', 'Duyên').execute();
+	// await db.schema.createTable('test').ifNotExists().addColumn('test', 'text').execute();
+	await db
+		.insertInto('test')
+		.values({
+			test: new Date().toLocaleTimeString('vi-vn'),
+		})
+		.execute();
 	revalidatePath(req.url + '/chamcong/success');
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
 }
