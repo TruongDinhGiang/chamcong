@@ -18,29 +18,30 @@ export async function GET(req: NextRequest) {
 	const currentUser = data.get('currentUserName')!.value;
 
 	const todayDay = new Date().toLocaleDateString('vi-vn').split('/');
-	const time = new Date().toLocaleTimeString('vi-vn').split(':');
+	const time = new Date().toLocaleTimeString('vi-vn');
 	const workHourTime = Number(time[0]);
 
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
 
-	await db.schema
-		.createTable(tableName)
-		.ifNotExists()
-		.addColumn('id', 'serial')
-		.addColumn('Name', 'text')
-		.addColumn('Time', 'integer')
-		.addColumn('isLate', 'boolean')
-		.execute();
+	// await db.schema
+	// 	.createTable(tableName)
+	// 	.ifNotExists()
+	// 	.addColumn('id', 'serial')
+	// 	.addColumn('Name', 'text')
+	// 	.addColumn('Time', 'integer')
+	// 	.addColumn('isLate', 'boolean')
+	// 	.execute();
 
 	!(await checkIfAlreadyCheckin(tableName, currentUser)) &&
 		(await db
 			.insertInto(tableName)
 			.values({
 				Name: currentUser,
-				Time: workHourTime,
+				Time: time,
 				isLate: workHourTime > 8 ? true : false,
 			})
 			.execute());
+	// await db.deleteFrom(tableName).where('Name', '=', 'Tùng').execute();
 	revalidatePath(req.url + '/chamcong/success');
 	// Router.push('/chamcong/success');
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
