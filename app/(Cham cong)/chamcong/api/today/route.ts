@@ -42,5 +42,6 @@ export async function GET(req: NextRequest) {
 			})
 			.execute());
 	revalidatePath(req.url + '/chamcong/success');
+	// Router.push('/chamcong/success');
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
 }
