@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
 	await db
 		.insertInto('test')
 		.values({
-			test: new Date().toLocaleTimeString([], {
+			test: new Date().toLocaleTimeString(['vi-vn'], {
 				timeZone: 'Asia/Ho_Chi_Minh',
 				timeStyle: 'short',
 			}),
