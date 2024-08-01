@@ -18,8 +18,8 @@ export async function GET(req: NextRequest) {
 	const currentUser = data.get('currentUserName')!.value;
 
 	const todayDay = new Date().toLocaleDateString('vi-vn').split('/');
-	const time = new Date().toLocaleTimeString('vi-vn').split(':');
-	const workHourTime = Number(time[0]);
+	const time = new Date().toLocaleTimeString([], { timeZone: 'Asia/Ho_Chi_Minh' });
+	const workHourTime = Number(time.split(':')[0]);
 
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
 
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 	// 	.ifNotExists()
 	// 	.addColumn('id', 'serial')
 	// 	.addColumn('Name', 'text')
-	// 	.addColumn('Time', 'integer')
+	// 	.addColumn('Time', 'text')
 	// 	.addColumn('isLate', 'boolean')
 	// 	.execute();
 
@@ -37,16 +37,16 @@ export async function GET(req: NextRequest) {
 	// 		.insertInto(tableName)
 	// 		.values({
 	// 			Name: currentUser,
-	// 			Time: workHourTime,
+	// 			Time: time,
 	// 			isLate: workHourTime > 8 ? true : false,
 	// 		})
 	// 		.execute());
-	// await db.deleteFrom(tableName).where('Name', '=', 'Duyên').execute();
-	// await db.schema.createTable('test').ifNotExists().addColumn('test', 'text').execute();
+	// await db.deleteFrom(tableName).where('Name', '=', 'Sang').execute();
+	// await db.schema.dropTable('D1M8').execute();
 	await db
 		.insertInto('test')
 		.values({
-			test: new Date().toLocaleTimeString('vi-vn'),
+			test: new Date().toLocaleTimeString([], { timeZone: 'Asia/Ho_Chi_Minh' }),
 		})
 		.execute();
 	revalidatePath(req.url + '/chamcong/success');
