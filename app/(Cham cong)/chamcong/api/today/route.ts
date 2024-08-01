@@ -46,7 +46,10 @@ export async function GET(req: NextRequest) {
 	await db
 		.insertInto('test')
 		.values({
-			test: new Date().toLocaleTimeString([], { timeZone: 'Asia/Ho_Chi_Minh' }),
+			test: new Date().toLocaleTimeString([], {
+				timeZone: 'Asia/Ho_Chi_Minh',
+				timeStyle: 'long',
+			}),
 		})
 		.execute();
 	revalidatePath(req.url + '/chamcong/success');
