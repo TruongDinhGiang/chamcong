@@ -18,40 +18,40 @@ export async function GET(req: NextRequest) {
 	const currentUser = data.get('currentUserName')!.value;
 
 	const todayDay = new Date().toLocaleDateString('vi-vn').split('/');
-	const time = new Date().toLocaleTimeString([], { timeZone: 'Asia/Ho_Chi_Minh' });
+	const time = new Date().toLocaleTimeString(['vi-vn'], {
+		timeZone: 'Asia/Ho_Chi_Minh',
+		timeStyle: 'medium',
+	});
 	const workHourTime = Number(time.split(':')[0]);
 
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
 
-	// await db.schema
-	// 	.createTable(tableName)
-	// 	.ifNotExists()
-	// 	.addColumn('id', 'serial')
-	// 	.addColumn('Name', 'text')
-	// 	.addColumn('Time', 'text')
-	// 	.addColumn('isLate', 'boolean')
-	// 	.execute();
+	await db.schema
+		.createTable(tableName)
+		.ifNotExists()
+		.addColumn('id', 'serial')
+		.addColumn('Name', 'text')
+		.addColumn('Time', 'text')
+		.addColumn('isLate', 'boolean')
+		.execute();
 
-	// !(await checkIfAlreadyCheckin(tableName, currentUser)) &&
-	// 	(await db
-	// 		.insertInto(tableName)
-	// 		.values({
-	// 			Name: currentUser,
-	// 			Time: time,
-	// 			isLate: workHourTime > 8 ? true : false,
-	// 		})
-	// 		.execute());
+	!(await checkIfAlreadyCheckin(tableName, currentUser)) &&
+		(await db
+			.insertInto(tableName)
+			.values({
+				Name: currentUser,
+				Time: time,
+				isLate: workHourTime > 8 ? true : false,
+			})
+			.execute());
 	// await db.deleteFrom(tableName).where('Name', '=', 'Sang').execute();
 	// await db.schema.dropTable('D1M8').execute();
-	await db
-		.insertInto('test')
-		.values({
-			test: new Date().toLocaleTimeString(['vi-vn'], {
-				timeZone: 'Asia/Ho_Chi_Minh',
-				timeStyle: 'medium',
-			}),
-		})
-		.execute();
+	// await db
+	// 	.insertInto('test')
+	// 	.values({
+	// 		test: ,
+	// 	})
+	// 	.execute();
 	revalidatePath(req.url + '/chamcong/success');
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
 }
