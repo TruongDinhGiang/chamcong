@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
 		.values({
 			test: new Date().toLocaleTimeString(['vi-vn'], {
 				timeZone: 'Asia/Ho_Chi_Minh',
-				timeStyle: 'short',
+				timeStyle: 'medium',
 			}),
 		})
 		.execute();
