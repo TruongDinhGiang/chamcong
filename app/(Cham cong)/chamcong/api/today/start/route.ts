@@ -42,19 +42,19 @@ export async function POST(req: NextRequest) {
 		.execute();
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	// await db.deleteFrom(tableName).executeTakeFirst();
+	await db.deleteFrom(tableName).executeTakeFirst();
 	const isCheckin = await checkIfAlreadyCheckin(tableName, currentUser);
 	if (isCheckin) return NextResponse.redirect(new URL('/home', req.url));
 
-	console.log('Checked in');
-	//*Insert username first, also checkin
-	await db
-		.insertInto(tableName)
-		.values({
-			Name: currentUser,
-			Checkin: time,
-		})
-		.execute();
+	// console.log('Checked in');
+	// //*Insert username first, also checkin
+	// await db
+	// 	.insertInto(tableName)
+	// 	.values({
+	// 		Name: currentUser,
+	// 		Checkin: time,
+	// 	})
+	// 	.execute();
 
 	//*After successfully check, redirect to success page and rediect back to /home page after 5s
 	return NextResponse.redirect(new URL('/chamcong/success', req.url));
