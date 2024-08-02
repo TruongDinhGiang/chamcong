@@ -7,7 +7,7 @@ import successGIF from '@/public/GIF/successGIF.gif';
 import failedGIF from '@/public/GIF/failedGIF.gif';
 import { bgColor } from './bgConfig';
 import Timer from './setTimer';
-import notFound from './notFound';
+import notFound from '../../../not-found';
 
 export default function Page(params: any) {
 	const { successState } = params.params;

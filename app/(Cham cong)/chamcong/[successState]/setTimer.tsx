@@ -8,11 +8,12 @@ export default function Timer(props: any) {
 	const [timer, setTimer] = useState(time);
 	const router = useRouter();
 
-	if (timer == 0) router.push(url);
+	if (timer == 0) {
+		router.push(url);
+	}
 
 	useEffect(() => {
 		setTimeout(() => {
-			console.log(timer);
 			setTimer(timer - 1);
 		}, 1000);
 	}, [timer]);

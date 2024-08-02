@@ -1,16 +1,16 @@
-'use client';
-import { useEffect, useRef, useState } from 'react';
-import summaryChart from '@/app/ui/Admin/summaryChart.js';
-
 export default function RenderChart() {
-	const chart = useRef<HTMLCanvasElement>(null);
-	const [isRendered, setRender] = useState(false);
-	useEffect(() => {
-		isRendered ? summaryChart() : setRender(true);
-	}, [isRendered]);
 	return (
-		<div id="statisticalChart" className="mx-auto w-3/4 h-auto">
-			<canvas ref={chart} id="summary" />
+		<div>
+			<p id="caption" className="mx-auto text-[1.5em] font-bold text-center w-fit">
+				Bảng chấm công
+			</p>
+			<p id="day" className="mx-auto text-base text-center w-fit">
+				{new Date().toLocaleDateString(['vi-vn'], {
+					timeZone: 'Asia/Ho_Chi_Minh',
+					dateStyle: 'full',
+				})}
+			</p>
+			<div className="mx-auto w-[95%]"></div>
 		</div>
 	);
 }

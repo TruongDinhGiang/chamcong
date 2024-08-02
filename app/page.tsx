@@ -21,30 +21,33 @@ export default function Page() {
 			<div className="w-full h-full flex flex-col items-center">
 				<div className=" rounded-[5%] w-[35%] h-auto">
 					<Image
-						className="invert relative mx-auto w-[90%] p-[10%] h-auto"
+						className="invert relative mx-auto w-[75%] p-[10%] h-auto"
 						src={LOGO}
 						alt="Logo"
 						objectFit="fit"
 					/>
 				</div>
+				<p style={JosefinSansFont.style} className="p-5 text-center text-[50px] font-bold">
+					Chấm công
+				</p>
 				<Link
-					href="/login"
+					href="/chamcong/api/today/start"
 					id="LoginButton"
 					className="transition-colors hover:[&]:text-black hover:bg-gray-400 w-[30%] h-fit rounded-full border-solid border-gray-400 border-[1px]">
 					<p
 						style={JosefinSansFont.style}
 						className=" p-5 text-center text-[35px] font-semibold heavitas">
-						Đăng nhập
+						Giờ vào
 					</p>
 				</Link>
 				<Link
-					href="/chamcong/api/today"
+					href="/chamcong/api/today/end"
 					id="ChamcongButton"
 					className="mt-5 transition-colors hover:[&]:text-black hover:bg-gray-400 w-[30%] h-fit rounded-full border-solid border-gray-400 border-[1px]">
 					<p
 						style={JosefinSansFont.style}
 						className=" p-5 text-center text-[35px] font-semibold heavitas">
-						Chấm công
+						Giờ ra
 					</p>
 				</Link>
 			</div>

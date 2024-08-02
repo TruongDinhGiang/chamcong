@@ -16,7 +16,7 @@ export default async function statisticalChart() {
 				},
 				{
 					label: 'Có mặt',
-					data: [5, 5, 5, 5, 500],
+					data: [5, 5, 5, 5, 100],
 				},
 			],
 		},
