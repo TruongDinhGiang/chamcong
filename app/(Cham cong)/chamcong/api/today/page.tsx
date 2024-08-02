@@ -10,7 +10,7 @@ async function temp(path: string, type: string) {
 	});
 }
 
-export default function Page(req: Params) {
+export default function Page(req: any) {
 	const path = usePathname();
 	console.log(req.searchParams);
 	// useEffect(() => {
