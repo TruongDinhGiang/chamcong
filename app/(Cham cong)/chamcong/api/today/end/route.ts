@@ -14,8 +14,8 @@ async function checkIfAlreadyCheckin(
 		.selectFrom(tableName)
 		.select('Checkout')
 		.where('Name', '=', username)
-		.execute();
-	return query[0] ? true : false;
+		.executeTakeFirst();
+	return query?.Checkout ? true : false;
 }
 
 export async function GET(req: NextRequest) {
