@@ -50,8 +50,8 @@ export async function GET(req: NextRequest) {
 		.ifNotExists()
 		.addColumn('id', 'serial')
 		.addColumn('Name', 'text')
-		.addColumn('Checkin', 'text')
-		.addColumn('Checkout', 'text')
+		.addColumn('Checkin', 'text', (e) => e.defaultTo(null))
+		.addColumn('Checkout', 'text', (e) => e.defaultTo(null))
 		.execute();
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
@@ -67,8 +67,6 @@ export async function GET(req: NextRequest) {
 			.insertInto(tableName)
 			.values({
 				Name: currentUser,
-				Checkin: null,
-				Checkkout: null,
 			})
 			.execute();
 
