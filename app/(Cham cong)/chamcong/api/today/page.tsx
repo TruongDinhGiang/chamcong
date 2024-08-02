@@ -3,13 +3,9 @@
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import loading from '@/public/GIF//loading2.gif';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
-async function insertData(path: string, type: string) {
-	return;
-}
-
-export default function Page() {
+function InsertData() {
 	const path = usePathname();
 	const query = useSearchParams().get('query');
 	const router = useRouter();
@@ -25,6 +21,8 @@ export default function Page() {
 
 	if (data.success) {
 		router.replace('/chamcong/success');
+	} else if (data.status == 406) {
+		router.replace('/home');
 	}
 	useEffect(() => {
 		fetch(path + '/' + query, {
@@ -39,5 +37,13 @@ export default function Page() {
 			<Image src={loading} alt="loading" objectFit="cover" className="relative" />
 			<p className="mx-auto w-fit font-bold text-2xl">Đợi chút xíu nhé...</p>
 		</div>
+	);
+}
+
+export default function Page() {
+	return (
+		<Suspense fallback={<p>hi</p>}>
+			<InsertData />
+		</Suspense>
 	);
 }
