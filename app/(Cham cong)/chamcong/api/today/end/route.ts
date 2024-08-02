@@ -12,7 +12,7 @@ async function checkIfAlreadyCheckin(
 ): Promise<boolean | undefined> {
 	const query = await db
 		.selectFrom(tableName)
-		.selectAll('Checkout')
+		.select('Checkout')
 		.where('Name', '=', username)
 		.execute();
 	return query[0] ? true : false;
