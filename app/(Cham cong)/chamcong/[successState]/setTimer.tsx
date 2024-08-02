@@ -9,7 +9,7 @@ export default function Timer(props: any) {
 	const router = useRouter();
 
 	if (timer == 0) {
-		router.push(url);
+		router.replace(url);
 	}
 
 	useEffect(() => {

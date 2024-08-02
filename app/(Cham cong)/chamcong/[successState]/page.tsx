@@ -43,7 +43,7 @@ export default function Page(params: any) {
 			<div className="mx-auto h-1/2 aspect-square rounded-[2rem] bg-white opacity-70 flex justify-center items-center">
 				<Image src={pagePreset.GIF} alt="Success GIF" className="w-1/2 h-auto" objectFit="fit" />
 			</div>
-			<Timer url="/home" time={5} />
+			<Timer url="/home" time={3} />
 		</main>
 	) : (
 		notFound()

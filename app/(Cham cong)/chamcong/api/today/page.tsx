@@ -1,20 +1,43 @@
 'use client';
 
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import loading from '@/public/GIF//loading2.gif';
+import { useEffect, useRef, useState } from 'react';
 
-async function temp(path: string, type: string) {
-	await fetch(path + type, {
-		method: 'POST',
-	});
+async function insertData(path: string, type: string) {
+	return;
 }
 
-export default function Page(req: any) {
+export default function Page() {
 	const path = usePathname();
-	console.log(req.searchParams.query);
-	// useEffect(() => {
-	// 	// temp(path, '/start');
-	// }, [path]);
-	return <p>hi</p>;
+	const query = useSearchParams().get('query');
+	const router = useRouter();
+
+	if (query !== 'start' && query !== 'end') {
+		router.replace('/not-found');
+	}
+
+	const [data, setData] = useState({
+		status: 1,
+		success: false,
+	});
+
+	if (data.success) {
+		router.replace('/chamcong/success');
+	}
+	useEffect(() => {
+		fetch(path + '/' + query, {
+			method: 'POST',
+		})
+			.then((res) => res.json())
+			.then((data) => setData(data));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	return (
+		<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit h-fit">
+			<Image src={loading} alt="loading" objectFit="cover" className="relative" />
+			<p className="mx-auto w-fit font-bold text-2xl">Đợi chút xíu nhé...</p>
+		</div>
+	);
 }
