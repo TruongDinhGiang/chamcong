@@ -1,11 +1,9 @@
-// 'use server';
+'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
 import { revalidatePath } from 'next/cache';
-
-//!Update table that created a new data. Fix it!
 
 const db = createKysely<any>();
 async function checkIfAlreadyCheckin(
@@ -62,6 +60,7 @@ export async function GET(req: NextRequest) {
 	if (checkState == 'start') {
 		//*Check if user want to checkin or checkout
 
+		console.log('Checked in');
 		//*Insert username first
 		await db
 			.insertInto(tableName)
@@ -81,6 +80,7 @@ export async function GET(req: NextRequest) {
 	}
 	//*If user checkout, set the checkout time.
 	else if (checkState == 'end') {
+		console.log('Checked out');
 		await db
 			.updateTable(tableName)
 			.set({
