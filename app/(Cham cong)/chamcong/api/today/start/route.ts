@@ -17,7 +17,7 @@ async function checkIfAlreadyCheckin(
 	return query?.Checkin ? true : false;
 }
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
 	//*Get user cookie data
 	const data = cookies();
 	const currentUser = data.get('currentUserName')!.value;
