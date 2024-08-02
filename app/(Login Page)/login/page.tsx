@@ -2,6 +2,7 @@
 import { handleLogin, State } from '@/app/libs/actions';
 import { useFormState } from 'react-dom';
 import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import LoadingGIF from '@/public/GIF/loadingGif.gif';
 
@@ -9,6 +10,9 @@ import clsx from 'clsx';
 export default function Page() {
 	//*Defining waiting Message as a GIF and bind to Image element
 	const waitingMessage = useRef<null | HTMLImageElement>(null);
+
+	//* Define router
+	const router = useRouter();
 
 	//*Set initial State for status
 	const initialState: State = {
@@ -19,6 +23,11 @@ export default function Page() {
 
 	//*use 'useFormState' for handle login errors
 	const [state, action] = useFormState(handleLogin, initialState);
+
+	//* If login success, direct user to home page with 'replace' method
+	if (state.success) {
+		router.replace('/home');
+	}
 
 	//*Remove the waiting GIF when submit form successful
 	useEffect(() => {
@@ -32,8 +41,9 @@ export default function Page() {
 				<form
 					//*on submit button click, appear the waiting GIF
 					onSubmit={() => {
-						if (waitingMessage.current)
-							console.dir(waitingMessage.current.classList.replace('hidden', 'block'));
+						if (waitingMessage.current) {
+							waitingMessage.current.classList.replace('hidden', 'block');
+						}
 					}}
 					action={action}
 					className="flex flex-col items-center gap-y-5">
@@ -45,6 +55,7 @@ export default function Page() {
 							placeholder="User name"
 							aria-describedby="username-error"
 							required
+							autoFocus
 						/>
 					</div>
 					<div id="passwordField">

@@ -115,5 +115,5 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	cookies().set('currentUserRole', role, {
 		maxAge: 60 * 60 * 24 * 30, //1 month (30days)
 	});
-	redirect(role == 'Admin' ? '/admin' : '/home');
+	return status;
 }
