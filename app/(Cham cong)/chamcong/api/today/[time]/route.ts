@@ -55,41 +55,43 @@ export async function GET(req: NextRequest) {
 		.execute();
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	// await db.deleteFrom(tableName).executeTakeFirst();
+	await db.deleteFrom(tableName).executeTakeFirst();
 	const isCheckin = await checkIfAlreadyCheckin(tableName, currentUser, checkState);
 	if (isCheckin) return NextResponse.redirect(new URL('/home', req.url));
 
-	if (checkState == 'start') {
-		//*Check if user want to checkin or checkout
+	// if (checkState == 'start') {
+	// 	//*Check if user want to checkin or checkout
 
-		//*Insert username first
-		await db
-			.insertInto(tableName)
-			.values({
-				Name: currentUser,
-			})
-			.execute();
+	// 	//*Insert username first
+	// 	await db
+	// 		.insertInto(tableName)
+	// 		.values({
+	// 			Name: currentUser,
+	// 			Checkin: null,
+	// 			Checkkout: null,
+	// 		})
+	// 		.execute();
 
-		//*If user checkin, set the checkin time.
-		await db
-			.updateTable(tableName)
-			.set({
-				Checkin: time,
-			})
-			.where('Name', '=', currentUser)
-			.execute();
-	}
-	//*If user checkout, set the checkout time.
-	else if (checkState == 'end')
-		await db
-			.updateTable(tableName)
-			.set({
-				Checkout: time,
-			})
-			.where('Name', '=', currentUser)
-			.execute();
-	//*If user changed the path, redirect to not-found page.
-	else return NextResponse.redirect(new URL('/not-found', req.url));
+	// 	//*If user checkin, set the checkin time.
+	// 	await db
+	// 		.updateTable(tableName)
+	// 		.set({
+	// 			Checkin: time,
+	// 		})
+	// 		.where('Name', '=', currentUser)
+	// 		.execute();
+	// }
+	// //*If user checkout, set the checkout time.
+	// else if (checkState == 'end')
+	// 	await db
+	// 		.updateTable(tableName)
+	// 		.set({
+	// 			Checkout: time,
+	// 		})
+	// 		.where('Name', '=', currentUser)
+	// 		.execute();
+	// //*If user changed the path, redirect to not-found page.
+	// else return NextResponse.redirect(new URL('/not-found', req.url));
 
 	// await db.schema.dropTable(tableName).execute();
 	// await db.schema.dropTable('D1M8').execute();
