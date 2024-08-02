@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
 	await db.schema
 		.createTable(tableName)
 		.ifNotExists()
-		.addColumn('id', 'serial')
+		.addColumn('id', 'serial', (e) => e.autoIncrement().primaryKey())
 		.addColumn('Name', 'text')
 		.addColumn('Checkin', 'text', (e) => e.defaultTo(null))
 		.addColumn('Checkout', 'text', (e) => e.defaultTo(null))
@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
 			.execute();
 	}
 	//*If user checkout, set the checkout time.
-	else if (checkState == 'end')
+	else if (checkState == 'end') {
 		await db
 			.updateTable(tableName)
 			.set({
@@ -88,6 +88,7 @@ export async function GET(req: NextRequest) {
 			})
 			.where('Name', '=', currentUser)
 			.execute();
+	}
 	//*If user changed the path, redirect to not-found page.
 	else return NextResponse.redirect(new URL('/not-found', req.url));
 
