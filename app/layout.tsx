@@ -4,7 +4,7 @@ import './ui/Style/final.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'Login',
+	title: 'Home page',
 };
 
 export default function RootLayout({
