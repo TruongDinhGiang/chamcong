@@ -8,7 +8,7 @@ import { JSX } from 'react';
 import LOGO from '@/public/Images/LOGO CTY.png';
 import { JosefinSans } from '@/app/ui/Style/Font/fonts';
 import Mobile from './(Cham cong table)/(Mobile)/mobile';
-import PC from './(Cham cong table)/(PC)/pc';
+import PC from './(Cham cong table)/(PC)/page';
 
 export default function Page() {
 	const [content, setContent] = useState<JSX.Element>();

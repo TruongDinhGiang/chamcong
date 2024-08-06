@@ -1,6 +1,6 @@
 'use client';
 
-import PCTable from './pctable';
+import { PCTable } from './pctable';
 import { Suspense, useRef } from 'react';
 
 export default function PC() {
@@ -20,7 +20,7 @@ export default function PC() {
 			<div id="data" ref={dataOfDay}></div>
 			<div id="table" className="mx-3">
 				<Suspense fallback={<p>Loading...</p>}>
-					<PCTable dataRef={dataOfDay} totalDay={totalDay} currentMonth={currentMonth} />
+					<PCTable days={totalDay} currentMonth={currentMonth} dataRef={dataOfDay} />
 				</Suspense>
 			</div>
 		</main>

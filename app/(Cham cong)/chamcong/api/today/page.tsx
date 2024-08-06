@@ -2,9 +2,10 @@
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 import loading from '@/public/GIF/loading2.gif';
+import { NextRequest } from 'next/server';
 
 function InsertData() {
 	//*Define path and query
@@ -26,20 +27,31 @@ function InsertData() {
 		uuid: '',
 	});
 
-	//* if successfully get data, direct to success page
-	// if (data.success) {
-	// 	router.replace('/chamcong/success');
-	// 	//*Otherwise, if data already have, redirect back to home page
-	// } else if (data.status == 406) {
-	// 	router.replace(`/home`);
-	// }
+	// * if successfully get data, direct to success page
+	if (data.success) {
+		router.replace('/chamcong/success');
+		//*Otherwise, if data already have, redirect back to home page
+	} else if (data.status == 406) {
+		router.replace(`/home`);
+	} else if (data.status == 400) {
+		router.replace('/chamcong/fail');
+	}
 	useEffect(() => {
-		//* fetch data
-		fetch(path + '/' + query, {
+		//*fetch userIP
+		fetch(path + '/user_ip', {
 			method: 'POST',
 		})
 			.then((res) => res.json())
 			.then((data) => setData(data));
+
+		if (data.status !== 400) {
+			//* fetch data
+			fetch(path + '/' + query, {
+				method: 'POST',
+			})
+				.then((res) => res.json())
+				.then((data) => setData(data));
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (

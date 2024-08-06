@@ -18,9 +18,6 @@ async function checkIfAlreadyCheckin(
 }
 
 export async function POST(req: NextRequest) {
-	console.log(req.headers);
-	console.log(req.headers.get('x-forwarded-for'));
-
 	//*Get user cookie data
 	const data = cookies();
 	const currentUser = data.get('currentUserName')!.value;
