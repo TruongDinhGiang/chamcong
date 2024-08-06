@@ -6,7 +6,7 @@ export default function NotFound() {
 			<p className="text-[10em] h-fit p-0 m-0">404</p>
 			<p className="-translate-y-full">Page not found</p>
 			<Link
-				href="/home"
+				href={`/home`}
 				className="transition-colors hover:text-black hover:bg-white text-white border border-solid border-white rounded-full">
 				<p className="py-5 px-10">Home</p>
 			</Link>

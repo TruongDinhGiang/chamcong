@@ -28,7 +28,7 @@
 		".next/types/**/*.ts",
 		"app/api/auth/[...nextauth]/route.ts",
 		"middleware.ts",
-		"app/seed/route.ts.disabled"
+		"app/seed/route.ts"
 	],
 	"exclude": ["node_modules"]
 }

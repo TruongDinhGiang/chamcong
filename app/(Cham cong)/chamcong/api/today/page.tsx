@@ -2,8 +2,9 @@
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import loading from '@/public/GIF//loading2.gif';
 import { Suspense, useEffect, useState } from 'react';
+
+import loading from '@/public/GIF/loading2.gif';
 
 function InsertData() {
 	//*Define path and query
@@ -22,15 +23,16 @@ function InsertData() {
 	const [data, setData] = useState({
 		status: 1,
 		success: false,
+		uuid: '',
 	});
 
 	//* if successfully get data, direct to success page
-	if (data.success) {
-		router.replace('/chamcong/success');
-		//*Otherwise, if data already have, redirect back to home page
-	} else if (data.status == 406) {
-		router.replace('/home');
-	}
+	// if (data.success) {
+	// 	router.replace('/chamcong/success');
+	// 	//*Otherwise, if data already have, redirect back to home page
+	// } else if (data.status == 406) {
+	// 	router.replace(`/home`);
+	// }
 	useEffect(() => {
 		//* fetch data
 		fetch(path + '/' + query, {

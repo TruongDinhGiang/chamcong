@@ -4,7 +4,6 @@ import { sql } from '@vercel/postgres';
 import z from 'zod';
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
-import { redirect } from 'next/navigation';
 
 const schema = z.object({
 	username: z.string({
