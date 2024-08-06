@@ -37,6 +37,8 @@ next-env.d.ts
 
 #seeding user
 /seed
+/api/configsql
+/qrcode
 
 #login api for testing
 # api/setcookie/route.ts
