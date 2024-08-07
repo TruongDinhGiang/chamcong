@@ -33,9 +33,10 @@ function InsertData() {
 		//*Otherwise, if data already have, redirect back to home page
 	} else if (data.status == 406) {
 		router.replace(`/home`);
-	} else if (data.status == 400) {
-		router.replace('/chamcong/fail');
 	}
+	// else if (data.status == 400) {
+	// 	router.replace('/chamcong/fail');
+	// }
 	useEffect(() => {
 		//*fetch userIP
 		fetch(path + '/user_ip', {
@@ -44,14 +45,14 @@ function InsertData() {
 			.then((res) => res.json())
 			.then((data) => setData(data));
 
-		if (data.status !== 400) {
-			//* fetch data
-			fetch(path + '/' + query, {
-				method: 'POST',
-			})
-				.then((res) => res.json())
-				.then((data) => setData(data));
-		}
+		// if (data.status !== 400) {
+		//* fetch data
+		fetch(path + '/' + query, {
+			method: 'POST',
+		})
+			.then((res) => res.json())
+			.then((data) => setData(data));
+		// }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (

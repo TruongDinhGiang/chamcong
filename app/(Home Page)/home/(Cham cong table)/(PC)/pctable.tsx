@@ -1,11 +1,14 @@
 'use client';
-import { MutableRefObject } from 'react';
+import { MutableRefObject, RefObject, useRef } from 'react';
 import { tableConfig } from '../tableconfig';
 
 function generateDayComponent(totalDay: number): Array<any> {
 	const arr = [];
 	for (let i = 1; i <= totalDay; i++) {
-		arr.push('Ngày ' + i);
+		arr.push({
+			text: 'Ngày ' + i,
+			data: i,
+		});
 	}
 	return arr;
 }
@@ -14,24 +17,35 @@ export async function PCTable({
 	days,
 	currentMonth,
 	dataRef,
+	timeContainer,
 }: {
 	days: number;
 	currentMonth: number;
-	dataRef: MutableRefObject<null>;
+	dataRef: RefObject<HTMLDivElement>;
+	timeContainer: MutableRefObject<{
+		startTime: RefObject<HTMLParagraphElement>;
+		endTime: RefObject<HTMLParagraphElement>;
+	}>;
 }) {
-	console.log(days);
 	const PCGrid = tableConfig.PC.Grid;
 	const numberOfGrid = days % 2 == 0 ? PCGrid[30] : PCGrid[31];
-	console.log(days);
+
+	const { startTime, endTime } = timeContainer.current;
+
 	return (
 		<div className={`${numberOfGrid} gap-1`}>
-			{/* //TODO:remove class hover. Replace with mouse over event listener in order to show the data inside <div id='data'> component that has passed as 'dataRef' variable. */}
 			{generateDayComponent(days).map((e) => {
 				return (
 					<p
-						key={e}
+						onClick={() => {
+							fetch('api/get_user_day_info?day=' + e.data, { method: 'POST', body: e.data })
+								.then((res) => res.json)
+								.then((data) => console.log(data));
+							//TODO: onClick event, send data to getuser api and return checkin, checkout time from the user.
+						}}
+						key={e.text}
 						className="py-2 rounded-md transition-colors hover:text-white hover:bg-black hover:cursor-pointer select-none text-center border border-solid border-black">
-						{e}
+						{e.text}
 					</p>
 				);
 			})}
