@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 
 export async function GET(req: NextRequest) {
 	console.log(process.cwd());
-	const data = JSON.parse(await fs.readFile('/TableData.json', 'utf8'));
+	const data = JSON.parse(await fs.readFile('./TableData.json', 'utf8'));
 	return Response.json(data);
 }
 
