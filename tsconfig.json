@@ -30,7 +30,8 @@
 		"middleware.ts",
 		"app/seed/route.ts.disabled",
 		"app/qrcode/page.tsx.disabled",
-		"app/(Login Page)/login/api/setcookie/route.ts.disabled"
+		"app/(Login Page)/login/api/setcookie/route.ts.disabled",
+		"app/(Home Page)/home/(Cham cong table)/(PC)/api/route.ts"
 	],
 	"exclude": ["node_modules"]
 }
