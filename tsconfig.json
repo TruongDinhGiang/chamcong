@@ -29,7 +29,8 @@
 		"app/api/auth/[...nextauth]/route.ts",
 		"middleware.ts",
 		"app/seed/route.ts.disabled",
-		"app/qrcode/page.tsx.disabled"
+		"app/qrcode/page.tsx.disabled",
+		"app/(Login Page)/login/api/setcookie/route.ts.disabled"
 	],
 	"exclude": ["node_modules"]
 }
