@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { promises as fs } from 'fs';
 
 export async function GET(req: NextRequest) {
-	console.log();
+	console.log(process.cwd());
 	const data = JSON.parse(
 		await fs.readFile(process.cwd() + '/app/(Home Page)/home/TableData.json', 'utf8')
 	);
