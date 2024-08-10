@@ -89,5 +89,9 @@ function InsertData() {
 }
 
 export default function Page() {
-	return <InsertData />;
+	return (
+		<Suspense>
+			<InsertData />;
+		</Suspense>
+	);
 }
