@@ -2,21 +2,23 @@
 
 import { PCTable } from './pctable';
 import { Suspense, useRef } from 'react';
+import { getTotalDayInCurrentMonth } from '@/app/libs/utilities';
 
 export default function PC() {
 	const currentDate = new Date().toLocaleDateString(['vi-vn'], {
 		timeZone: 'Asia/Ho_Chi_Minh',
 	});
 	const currentMonth = Number(currentDate.split('/')[1]);
-	const totalDay =
-		currentMonth > 7 ? (currentMonth % 2 == 0 ? 31 : 30) : currentMonth % 2 == 0 ? 30 : 31;
+	const totalDay = getTotalDayInCurrentMonth();
 
-	const infoContainer = useRef<HTMLDivElement>(null);
 	const startTime = useRef<HTMLParagraphElement>(null);
 	const endTime = useRef<HTMLParagraphElement>(null);
+	const DaySelect = useRef<HTMLParagraphElement>(null);
+
 	const timeContainer = useRef({
 		startTime: startTime,
 		endTime: endTime,
+		DaySelect: DaySelect,
 	});
 	return (
 		<main className="mt-5">
@@ -24,26 +26,20 @@ export default function PC() {
 				<p className="text-center text-[25px] font-bold">Bảng chấm công tháng {currentMonth}</p>
 			</div>
 			<div id="data" className="my-5 w-screen border-y border-solid border-black">
-				<div
-					className="py-5 grid grid-cols-[max-content_max-content] grid-rows-[min-content] items-center justify-evenly font-bold bg-slate-300 "
-					ref={infoContainer}>
-					<p className="w-fit" ref={startTime}>
-						Giờ vào: <span>null</span>
+				<div className="py-5 grid grid-cols-[max-content_max-content_max-content] grid-rows-[min-content] items-center justify-evenly font-bold bg-slate-300 ">
+					<p className="w-fit">
+						Ngày <span ref={DaySelect}>null</span>
 					</p>
-					<p className="w-fit" ref={endTime}>
-						Giờ ra: <span>null</span>
+					<p className="w-fit">
+						Giờ vào: <span ref={startTime}>null</span>
+					</p>
+					<p className="w-fit">
+						Giờ ra: <span ref={endTime}>null</span>
 					</p>
 				</div>
 			</div>
 			<div id="table" className="mx-3">
-				<Suspense fallback={<p>Loading...</p>}>
-					<PCTable
-						days={totalDay}
-						currentMonth={currentMonth}
-						dataRef={infoContainer}
-						timeContainer={timeContainer}
-					/>
-				</Suspense>
+				<PCTable days={totalDay} currentMonth={currentMonth} timeContainer={timeContainer} />
 			</div>
 		</main>
 	);

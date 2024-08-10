@@ -3,19 +3,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
-import { revalidatePath } from 'next/cache';
 
 const db = createKysely<any>();
-async function checkIfAlreadyCheckin(
-	tableName: string,
-	username: string
-): Promise<boolean | undefined> {
-	const query = await db
-		.selectFrom(tableName)
-		.select('Checkout')
-		.where('Name', '=', username)
-		.executeTakeFirst();
-	return query?.Checkout ? true : false;
+function toSecond(hour: string, min: string, sec: string): number {
+	return Number(hour) * 3600 + Number(min) * 60 + Number(sec);
 }
 
 export async function POST(req: NextRequest) {
@@ -32,10 +23,6 @@ export async function POST(req: NextRequest) {
 	//*Define table name
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
 
-	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	// await db.deleteFrom(tableName).executeTakeFirst();
-	const isCheckin = await checkIfAlreadyCheckin(tableName, currentUser);
-	if (isCheckin) return Response.json({ status: 406, success: false });
 	//*If user checkin, set the checkin time.
 	await db
 		.updateTable(tableName)
@@ -45,8 +32,20 @@ export async function POST(req: NextRequest) {
 		.where('Name', '=', currentUser)
 		.execute();
 
-	//*After successfully check, redirect to success page and rediect back to /home page after 5s
-	revalidatePath('/chamcong/success');
-	return Response.json({ status: 200, success: true });
+	await db
+		.updateTable(currentUser)
+		.set({
+			Checkout: time,
+		})
+		.where('Days', '=', todayDay[0])
+		.executeTakeFirst();
+
+	data.set('isCheckout', 'true', {
+		maxAge: toSecond('23', '59', '59') - toSecond(time[0], time[1], time[2]),
+		httpOnly: true,
+	});
+
+	//*After successfully check, redirect to success page and rediect back to /home page after 3s
+	return NextResponse.json({ status: 200, success: true });
 	// return NextResponse.json(req.url);
 }

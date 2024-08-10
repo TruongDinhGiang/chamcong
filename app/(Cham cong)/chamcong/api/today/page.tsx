@@ -2,11 +2,59 @@
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, Suspense, useEffect, useRef, useState } from 'react';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 import loading from '@/public/GIF/loading2.gif';
-import { NextRequest } from 'next/server';
+import _hasCookie from './hasCookie';
 
+async function CheckData(
+	path: string,
+	query: string | null,
+	data: MutableRefObject<number>,
+	router: AppRouterInstance
+) {
+	//*If cookie is given, abort fetching data.
+	switch (query) {
+		case 'start': {
+			await _hasCookie('isCheckin').then((val) => {
+				if (val) data.current = 401;
+			});
+		}
+		case 'end': {
+			await _hasCookie('isCheckout').then((val) => {
+				if (val) data.current = 401;
+			});
+			break;
+		}
+	}
+	if (data.current == 401) router.replace('/home');
+
+	//*fetch userIP
+	// await fetch(path + '/user_ip', {
+	// 	method: 'POST',
+	// })
+	// 	.then((res) => res.json())
+	// 	.then((val) => {
+	// 		if (val.status == 400) {
+	// 			data.current = 400;
+	// 			router.replace('/chamcong/fail');
+	// 		}
+	// 	});
+
+	//* fetch data
+	if (data.current == 200) {
+		fetch(path + '/' + query, {
+			method: 'POST',
+		})
+			.then((res) => res.json())
+			.then((val) => {
+				if (val.status == 200) {
+					router.replace('/chamcong/success');
+				}
+			});
+	}
+}
 function InsertData() {
 	//*Define path and query
 	const path = usePathname();
@@ -20,41 +68,18 @@ function InsertData() {
 		router.replace('/not-found');
 	}
 
-	//*Define data using 'useState'
-	const [data, setData] = useState({
-		status: 1,
-		success: false,
-		uuid: '',
-	});
+	//*Define data using 'useRef'
+	const data = useRef(200);
 
-	// * if successfully get data, direct to success page
-	if (data.success) {
-		router.replace('/chamcong/success');
-		//*Otherwise, if data already have, redirect back to home page
-	} else if (data.status == 406) {
-		router.replace(`/home`);
-	}
-	// else if (data.status == 400) {
-	// 	router.replace('/chamcong/fail');
-	// }
+	const [loopTime, setLoopTime] = useState(false);
+
 	useEffect(() => {
-		//*fetch userIP
-		fetch(path + '/user_ip', {
-			method: 'POST',
-		})
-			.then((res) => res.json())
-			.then((data) => setData(data));
-
-		// if (data.status !== 400) {
-		//* fetch data
-		fetch(path + '/' + query, {
-			method: 'POST',
-		})
-			.then((res) => res.json())
-			.then((data) => setData(data));
-		// }
+		//*For the second render
+		if (loopTime) {
+			CheckData(path, query, data, router);
+		} else setLoopTime(true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [loopTime]);
 	return (
 		<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-fit h-fit">
 			<Image src={loading} alt="loading" objectFit="cover" className="relative" />
@@ -64,9 +89,5 @@ function InsertData() {
 }
 
 export default function Page() {
-	return (
-		<Suspense fallback={<p>hi</p>}>
-			<InsertData />
-		</Suspense>
-	);
+	return <InsertData />;
 }

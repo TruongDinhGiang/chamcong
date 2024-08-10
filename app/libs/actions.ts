@@ -1,9 +1,26 @@
 'use server';
-import data from './placeholder-data';
 import { sql } from '@vercel/postgres';
+import { createKysely } from '@vercel/postgres-kysely';
 import z from 'zod';
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
+
+import { getTotalDayInCurrentMonth, MonthDayToSecond } from './utilities';
+import data from './placeholder-data';
+
+const db = createKysely<any>();
+const totalDay = getTotalDayInCurrentMonth();
+const DateInfo = new Date()
+	.toLocaleDateString('vi-vn', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+	})
+	.split('/');
+const TimeInfo = new Date()
+	.toLocaleTimeString('vi-vn', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+		timeStyle: 'medium',
+	})
+	.split(':');
 
 const schema = z.object({
 	username: z.string({
@@ -106,13 +123,74 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	status.message = result ? 'Đăng nhập thành công' : 'Sai mật khẩu';
 	status.success = result;
 
+	//*If failed
 	if (!result) return status;
 
+	//*If success
+
+	//*Delete user checkin/checkout time after get into new month
+	await db.schema.dropTable(parsedData.data.username).ifExists().execute();
+
+	//*Create user checkin/checkout time for a month
+	db.schema
+		.createTable(parsedData.data.username)
+		.ifNotExists()
+		.addColumn('Days', 'integer')
+		.addColumn('Checkin', 'text', (col) => col.defaultTo(null))
+		.addColumn('Checkout', 'text', (col) => col.defaultTo(null))
+		.execute();
+	for (let i = 1; i <= totalDay; i++) {
+		db.insertInto(parsedData.data.username)
+			.values({
+				Days: i,
+				Checkin: null,
+				Checkout: null,
+			})
+			.executeTakeFirst();
+	}
+
+	//*Calculate expire time for cookie
+	const date = new Date()
+		.toLocaleDateString('vi-vn', {
+			timeZone: 'Asia/Ho_Chi_Minh',
+		})
+		.split('/');
+	const time = new Date()
+		.toLocaleTimeString('vi-vn', {
+			timeZone: 'Asia/Ho_Chi_Minh',
+			timeStyle: 'medium',
+		})
+		.split(':');
+	const CookieExpireTime =
+		MonthDayToSecond(String(totalDay), '23', '59', '59') -
+		MonthDayToSecond(date[0], time[0], time[1], time[2]);
+
 	cookies().set('currentUserName', parsedData.data.username, {
-		maxAge: 60 * 60 * 24 * 30, //1 month (30days)
+		maxAge: CookieExpireTime,
 	});
 	cookies().set('currentUserRole', role, {
-		maxAge: 60 * 60 * 24 * 30, //1 month (30days)
+		maxAge: CookieExpireTime,
 	});
 	return status;
+}
+
+//*Array handler
+export async function _JsonArrayStringify(arr: Array<any>, seperator: string) {
+	arr = arr.map((e) => JSON.stringify(e));
+	return arr.reduce((prev, e) => {
+		return prev + e + seperator;
+	}, '');
+}
+
+export async function _ArrayParseToJson(arr: string, seperator: string) {
+	const result = arr.split(seperator);
+	result.pop();
+	return result.map((e) => JSON.parse(e));
+}
+
+export async function GetTableData(seperator: string) {
+	const currentUser = cookies().get('currentUserName')!.value;
+	const result = await db.selectFrom(currentUser).selectAll().execute();
+
+	return result;
 }

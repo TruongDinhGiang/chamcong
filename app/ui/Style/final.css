@@ -766,8 +766,8 @@ video {
   grid-template-columns: 15vw 85vw;
 }
 
-.grid-cols-\[max-content_max-content\] {
-  grid-template-columns: max-content max-content;
+.grid-cols-\[max-content_max-content_max-content\] {
+  grid-template-columns: max-content max-content max-content;
 }
 
 .grid-cols-\[repeat\(11\2c 1fr\)\] {
