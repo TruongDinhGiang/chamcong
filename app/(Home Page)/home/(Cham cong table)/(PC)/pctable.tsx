@@ -19,7 +19,7 @@ export function PCTable({
 	currentMonth,
 	timeContainer,
 }: {
-	days: number;
+	days: 31 | 30 | 29 | 28;
 	currentMonth: number;
 	timeContainer: MutableRefObject<{
 		startTime: RefObject<HTMLParagraphElement>;
@@ -28,7 +28,7 @@ export function PCTable({
 	}>;
 }) {
 	const PCGrid = tableConfig.PC.Grid;
-	const numberOfGrid = days % 2 == 0 ? PCGrid[30] : PCGrid[31];
+	const numberOfGrid = PCGrid[days];
 
 	const { startTime, endTime, DaySelect } = timeContainer.current;
 
@@ -38,21 +38,15 @@ export function PCTable({
 				return (
 					<Suspense key={e.text} fallback={<p>Loading...</p>}>
 						<p
-							onClick={async (element) => {
-								// await fetch('home/api', {
-								// 	method: 'GET',
-								// 	// body: JSON.stringify({
-								// 	// 	newcontent: 'xinchao',
-								// 	// }),
-								// })
-								// 	.then((res) => res.json())
-								// 	.then((result) => console.log(result));
-								await fetch('api/get_user_day_info?day=' + e.data, { method: 'POST', body: e.data })
+							onClick={(element) => {
+								DaySelect.current!.innerText = String(e.data);
+								startTime.current!.innerText = 'Đợi chút xíu...';
+								endTime.current!.innerText = 'Đợi chút xíu...';
+								fetch('api/get_user_day_info?day=' + e.data, { method: 'POST', body: e.data })
 									.then((res) => res.json())
 									.then((data) => {
-										DaySelect.current!.innerText = String(e.data);
-										startTime.current!.innerText = String(data.checkin);
-										endTime.current!.innerText = String(data.checkout);
+										startTime.current!.innerText = data.checkin ? data.checkin : 'Không có!';
+										endTime.current!.innerText = data.checkout ? data.checkout : 'Không có!';
 										//TODO: Save all day infomation inside cookies. Update cookie everytime checkin/checkout
 									});
 							}}

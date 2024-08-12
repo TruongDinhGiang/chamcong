@@ -1,12 +1,4 @@
-export function getCurrentDate() {
-	const date = new Date().toLocaleDateString('vi-vn');
-	return {
-		string: date,
-		array: date.split('/'),
-	};
-}
-
-export function getTotalDayInCurrentMonth() {
+export function getTotalDayInCurrentMonth(): 31 | 30 | 29 | 28 {
 	const date = new Date()
 		.toLocaleDateString('vi-vn', {
 			timeZone: 'Asia/Ho_Chi_Minh',
@@ -14,7 +6,7 @@ export function getTotalDayInCurrentMonth() {
 		.split('/');
 	const currentMonth = Number(date[1]);
 	const currentYear = Number(date[2]);
-	let totalDay = 30;
+	let totalDay: 31 | 30 | 29 | 28 = 30;
 	//*Nếu không phải là tháng 2
 	if (currentMonth != 2) {
 		totalDay =
@@ -42,4 +34,14 @@ export function MonthDayToSecond(day: string, hour: string, min: string, sec: st
 
 export function toSecond(hour: string, min: string, sec: string): number {
 	return Number(hour) * 3600 + Number(min) * 60 + Number(sec);
+}
+
+export function GetCurrentDate() {
+	const date = new Date().toLocaleDateString('vi-vn', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+	});
+	return {
+		string: date,
+		array: date.split('/'),
+	};
 }
