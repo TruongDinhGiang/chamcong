@@ -39,22 +39,22 @@ export function PCTable({
 					<Suspense key={e.text} fallback={<p>Loading...</p>}>
 						<p
 							onClick={async (element) => {
-								await fetch('home/api', {
-									method: 'GET',
-									// body: JSON.stringify({
-									// 	newcontent: 'xinchao',
-									// }),
-								})
-									.then((res) => res.json())
-									.then((result) => console.log(result));
-								// await fetch('api/get_user_day_info?day=' + e.data, { method: 'POST', body: e.data })
+								// await fetch('home/api', {
+								// 	method: 'GET',
+								// 	// body: JSON.stringify({
+								// 	// 	newcontent: 'xinchao',
+								// 	// }),
+								// })
 								// 	.then((res) => res.json())
-								// 	.then((data) => {
-								// 		DaySelect.current!.innerText = String(e.data);
-								// 		startTime.current!.innerText = String(data.checkin);
-								// 		endTime.current!.innerText = String(data.checkout);
-								// 		//TODO: Save all day infomation inside cookies. Update cookie everytime checkin/checkout
-								// 	});
+								// 	.then((result) => console.log(result));
+								await fetch('api/get_user_day_info?day=' + e.data, { method: 'POST', body: e.data })
+									.then((res) => res.json())
+									.then((data) => {
+										DaySelect.current!.innerText = String(e.data);
+										startTime.current!.innerText = String(data.checkin);
+										endTime.current!.innerText = String(data.checkout);
+										//TODO: Save all day infomation inside cookies. Update cookie everytime checkin/checkout
+									});
 							}}
 							key={e.text}
 							className="py-2 rounded-md transition-colors hover:text-white hover:bg-black hover:cursor-pointer select-none text-center border border-solid border-black">
