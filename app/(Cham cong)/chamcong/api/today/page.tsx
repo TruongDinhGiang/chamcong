@@ -51,6 +51,8 @@ async function CheckData(
 			.then((val) => {
 				if (val.status == 200) {
 					router.replace('/chamcong/success');
+				} else {
+					router.replace('/home');
 				}
 			});
 	}

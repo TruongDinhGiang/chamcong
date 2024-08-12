@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
 
 import { _JsonArrayStringify } from '@/app/libs/actions';
-import { getTotalDayInCurrentMonth, MonthDayToSecond, toSecond } from '@/app/libs/utilities';
+import { toSecond } from '@/app/libs/utilities';
 
 const db = createKysely<any>();
 
@@ -23,6 +23,13 @@ export async function POST(req: NextRequest) {
 	//*Define table name
 	const tableName = `D${date[0]}M${date[1]}`;
 
+	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
+	if (
+		await db.selectFrom(tableName).selectAll().where('Name', '=', currentUser).executeTakeFirst()
+	) {
+		return NextResponse.json({ status: 400, success: false });
+	}
+
 	//*Create table if not created yet
 	await db.schema
 		.createTable(tableName)
@@ -32,9 +39,6 @@ export async function POST(req: NextRequest) {
 		.addColumn('Checkin', 'text', (e) => e.defaultTo(null))
 		.addColumn('Checkout', 'text', (e) => e.defaultTo(null))
 		.execute();
-
-	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	// await db.deleteFrom(tableName).executeTakeFirst();
 
 	//*Insert username first, also checkin
 	await db.connection().execute(async (db) => {

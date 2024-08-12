@@ -4,6 +4,6 @@ import { NextResponse } from 'next/server';
 const db = createKysely<any>();
 
 export async function GET() {
-	await db.schema.dropTable('D10M8').execute();
+	await db.schema.dropTable('D12M8').execute();
 	return NextResponse.json({ status: 'done' });
 }

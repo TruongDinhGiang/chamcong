@@ -23,6 +23,13 @@ export async function POST(req: NextRequest) {
 	//*Define table name
 	const tableName = `D${todayDay[0]}M${todayDay[1]}`;
 
+	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
+	if (
+		await db.selectFrom(tableName).selectAll().where('Name', '=', currentUser).executeTakeFirst()
+	) {
+		return NextResponse.json({ status: 400, success: false });
+	}
+
 	//*If user checkin, set the checkin time.
 	await db
 		.updateTable(tableName)
