@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getTodayEmployeeStatus } from '@/app/libs/actions';
 
 import RenderChart from '@/app/ui/Admin/RenderChart';
+import { Meditative, roboto } from '@/app/ui/Style/Font/fonts';
 
 function DashboardDetail({
 	className,
@@ -19,8 +20,12 @@ function DashboardDetail({
 	return (
 		<div className={className}>
 			<FontAwesomeIcon className="w-auto h-full" icon={icon} />
-			<p className="text-[25px] text-[#000000] opacity-75 mediative">{data}</p>
-			<p className="text-[15px] text-[#000000] opacity-50 roboto">{text}</p>
+			<p className="text-[25px] text-[#000000] opacity-75" style={Meditative.style}>
+				{data}
+			</p>
+			<p className="text-[15px] text-[#000000] opacity-50" style={roboto.style}>
+				{text}
+			</p>
 		</div>
 	);
 }
