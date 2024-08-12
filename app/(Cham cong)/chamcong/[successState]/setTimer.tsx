@@ -19,7 +19,6 @@ export default function Timer(props: any) {
 	}, [timer]);
 	return (
 		<>
-			{isFail && <p className="pt-3 self-center text-3xl font-bold">Hãy xài WIFI của Công ty!</p>}
 			<p className="pt-3 self-center text-lg">Bạn sẽ chuyển về trang chủ sau {timer} giây</p>
 		</>
 	);
