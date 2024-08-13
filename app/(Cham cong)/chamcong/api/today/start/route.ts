@@ -36,7 +36,11 @@ export async function POST(req: NextRequest) {
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
 	if (
-		await db.selectFrom(tableName).selectAll().where('Name', '=', currentUser).executeTakeFirst()
+		await db
+			.selectFrom(tableName)
+			.select('Checkin')
+			.where('Name', '=', currentUser)
+			.executeTakeFirst()
 	) {
 		return NextResponse.json({ status: 400, success: false });
 	}

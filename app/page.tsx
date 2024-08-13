@@ -24,7 +24,7 @@ export default function Page() {
 					onClick={() => {
 						console.log('Chấm công giờ vào');
 					}}
-					href="/chamcong/api/today/?query=start"
+					href="/chamcong?query=start"
 					id="LoginButton"
 					className="transition-colors hover:[&]:text-black hover:bg-gray-400 w-3/4 md:w-[30%] h-fit rounded-full border-solid border-gray-400 border-[1px]">
 					<p
@@ -37,7 +37,7 @@ export default function Page() {
 					onClick={() => {
 						console.log('Chấm công giờ ra');
 					}}
-					href="/chamcong/api/today/?query=end"
+					href="/chamcong?query=end"
 					id="ChamcongButton"
 					className="mt-5 transition-colors hover:[&]:text-black hover:bg-gray-400 w-3/4 md:w-[30%] h-fit rounded-full border-solid border-gray-400 border-[1px]">
 					<p

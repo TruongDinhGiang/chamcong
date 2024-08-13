@@ -32,7 +32,7 @@ export default function Page() {
 					<div className="m-2 grid grid-cols-1 md:grid-cols-2 grid-rows-2 md:grid-rows-1 gap-2">
 						<div className="w-full h-full">
 							<Link
-								href="chamcong/api/today?query=start"
+								href="chamcong?query=start"
 								style={JosefinSans.style}
 								className="transition-colors block py-2 md:py-5 w-full hover:bg-black hover:text-white border border-black border-solid rounded-2xl text-center">
 								Giờ vào
@@ -40,7 +40,7 @@ export default function Page() {
 						</div>
 						<div className="w-full h-full">
 							<Link
-								href="chamcong/api/today?query=end"
+								href="chamcong?query=end"
 								style={JosefinSans.style}
 								className="transition-colors block py-2 md:py-5 w-full hover:bg-black hover:text-white border border-black border-solid rounded-2xl text-center">
 								Giờ ra

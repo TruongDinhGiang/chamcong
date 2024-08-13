@@ -6,7 +6,7 @@ import { MutableRefObject, Suspense, useEffect, useRef, useState } from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 import loading from '@/public/GIF/loading2.gif';
-import _hasCookie from './hasCookie';
+import _hasCookie from './api/today/hasCookie';
 
 async function CheckData(
 	path: string,
@@ -44,7 +44,7 @@ async function CheckData(
 
 	//* fetch data
 	if (data.current == 200) {
-		fetch(path + '/' + query, {
+		fetch(path + '/api/today/' + query, {
 			method: 'POST',
 		})
 			.then((res) => res.json())
