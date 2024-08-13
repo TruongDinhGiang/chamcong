@@ -1,3 +1,5 @@
+'use server';
+
 import { sql } from '@vercel/postgres';
 import { createKysely } from '@vercel/postgres-kysely';
 import z from 'zod';
@@ -36,7 +38,7 @@ export type State = {
 	progress?: 'pending' | 'done';
 };
 
-async function getTodayTotalEmployee() {
+export async function getTodayTotalEmployee() {
 	try {
 		const result = await db.selectFrom(`D${DateInfo[0]}M${DateInfo[1]}`).selectAll().execute();
 		return result.length;
@@ -44,9 +46,6 @@ async function getTodayTotalEmployee() {
 		return 0;
 	}
 }
-let TodayTotalEmployee: number = 0;
-getTodayTotalEmployee().then((x) => (TodayTotalEmployee = x));
-export { TodayTotalEmployee };
 
 export async function updateSession() {
 	const currentUserName = cookies().get('currentUserName');

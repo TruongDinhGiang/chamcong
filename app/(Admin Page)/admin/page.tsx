@@ -1,10 +1,16 @@
 import { faUser as UserSolid, faQuestion, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faUser as UserRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { TodayTotalEmployee } from '@/app/libs/actions';
+import { getTodayTotalEmployee } from '@/app/libs/actions';
 
 import RenderChart from '@/app/ui/Admin/RenderChart';
 import { Meditative, roboto } from '@/app/ui/Style/Font/fonts';
+
+function TodayTotalEmployee(): number {
+	let result: number = 0;
+	getTodayTotalEmployee().then((x) => (result = x));
+	return result;
+}
 
 function DashboardDetail({
 	className,
@@ -44,7 +50,7 @@ export default async function Page() {
 						className="relative bg-white rounded-xl flex flex-col items-center p-5 h-[75%] w-auto"
 						icon={UserSolid}
 						text={'Có mặt'}
-						data={TodayTotalEmployee}
+						data={TodayTotalEmployee()}
 					/>
 				</div>
 			</div>
