@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			<div className="sticky top-0">
 				<SideNav />
 			</div>
-			<div className="w-auto">{children}</div>
+			<div className="w-auto h-screen">{children}</div>
 		</div>
 	);
 }

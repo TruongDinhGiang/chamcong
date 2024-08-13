@@ -30,13 +30,21 @@ function DashboardDetail({
 		</div>
 	);
 }
+
 export default function TopDashboardDetail() {
 	const [TodayTotalEmployee, setTodayTotalEmployee] = useState(0);
+	const [init, setInit] = useState(true);
 
 	useEffect(() => {
-		setInterval(() => {
+		if (init) {
 			getTodayTotalEmployee().then((x) => setTodayTotalEmployee(x));
-		}, 10000);
+			setInit(false);
+		} else {
+			setInterval(() => {
+				getTodayTotalEmployee().then((x) => setTodayTotalEmployee(x));
+			}, 10000);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div className="relative h-[25vh]">
