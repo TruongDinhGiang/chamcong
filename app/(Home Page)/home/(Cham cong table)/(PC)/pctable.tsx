@@ -37,7 +37,8 @@ export function PCTable({
 			{generateDayComponent(days).map((e) => {
 				return (
 					<Suspense key={e.text} fallback={<p>Loading...</p>}>
-						<p
+						<button
+							type="button"
 							onClick={(element) => {
 								DaySelect.current!.innerText = String(e.data);
 								startTime.current!.innerText = 'Đợi chút xíu...';
@@ -51,9 +52,9 @@ export function PCTable({
 									});
 							}}
 							key={e.text}
-							className="py-2 rounded-md transition-colors hover:text-white hover:bg-black hover:cursor-pointer select-none text-center border border-solid border-black">
+							className="py-2 rounded-md transition-colors focus:text-white focus:bg-black cursor-pointer select-none text-center border border-solid border-black">
 							{e.text}
-						</p>
+						</button>
 					</Suspense>
 				);
 			})}

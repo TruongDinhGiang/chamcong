@@ -6,6 +6,7 @@ import { createKysely } from '@vercel/postgres-kysely';
 
 import { _JsonArrayStringify } from '@/app/libs/actions';
 import { toSecond } from '@/app/libs/utilities';
+import { revalidatePath } from 'next/cache';
 
 const db = createKysely<any>();
 
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest) {
 	});
 
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s
+	revalidatePath('/admin');
 	return NextResponse.json({ status: 200, success: true });
 	// return NextResponse.json(req.url);
 }

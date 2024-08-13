@@ -28,7 +28,8 @@ export default function MobileTable() {
 			<div id="selection" className={`${numberOfGrid} gap-2`}>
 				{generateDayComponent().map((e) => {
 					return (
-						<p
+						<button
+							type="button"
 							onClick={() => {
 								DateElement.current!.innerText = e.text;
 								StartTimeElement.current!.innerText = 'Đợi chút xíu...';
@@ -44,9 +45,9 @@ export default function MobileTable() {
 									});
 							}}
 							key={e.data}
-							className="hover:bg-black hover:text-white py-2 border border-solid border-black rounded-2xl flex items-center justify-center">
+							className="focus:bg-black focus:text-white py-2 border border-solid border-black rounded-2xl flex items-center justify-center">
 							{e.text}
-						</p>
+						</button>
 					);
 				})}
 			</div>
