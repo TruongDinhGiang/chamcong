@@ -28,7 +28,7 @@
 		".next/types/**/*.ts",
 		"app/api/auth/[...nextauth]/route.ts",
 		"middleware.ts",
-		"app/seed/route.ts.disabled",
+		"app/seed/route.ts",
 		"app/qrcode/page.tsx.disabled",
 		"app/(Login Page)/login/api/setcookie/route.ts.disabled",
 		"app/(Home Page)/home/(Cham cong table)/(PC)/api/route.ts"

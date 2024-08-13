@@ -31,16 +31,16 @@ async function CheckData(
 	if (data.current == 401) router.replace('/home');
 
 	//*fetch userIP
-	await fetch(path + '/user_ip', {
-		method: 'POST',
-	})
-		.then((res) => res.json())
-		.then((val) => {
-			if (val.status == 400) {
-				data.current = 400;
-				router.replace('/chamcong/fail');
-			}
-		});
+	// await fetch(path + '/user_ip', {
+	// 	method: 'POST',
+	// })
+	// 	.then((res) => res.json())
+	// 	.then((val) => {
+	// 		if (val.status == 400) {
+	// 			data.current = 400;
+	// 			router.replace('/chamcong/fail');
+	// 		}
+	// 	});
 
 	//* fetch data
 	if (data.current == 200) {
