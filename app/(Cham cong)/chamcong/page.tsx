@@ -31,7 +31,7 @@ async function CheckData(
 	if (data.current == 401) router.replace('/home');
 
 	//*fetch userIP
-	await fetch(path + '/user_ip', {
+	await fetch(path + '/api/today/user_ip', {
 		method: 'POST',
 	})
 		.then((res) => res.json())

@@ -18,8 +18,8 @@ export default function Page() {
 						);
 					})}
 				</div>
-				<div className="w-full h-full">
-					<div className="mx-5 mb-5 h-full w-auto bg-white"></div>
+				<div className="w-full h-full px-5 pb-5">
+					<div className="h-full w-full bg-white rounded-2xl"></div>
 				</div>
 			</div>
 		</>
