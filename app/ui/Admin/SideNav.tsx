@@ -13,7 +13,7 @@ export default function SideNav() {
 				</div>
 				<div className="flex flex-col items-center gap-y-5">
 					<Selections url="/admin/thongke" text="Thống kê" />
-					<Selections url="/admin/danhsachnhanvien" text="Danh sách nhân viên" />
+					<Selections url="/admin/lichsu" text="Lịch sử thống kê" />
 					<Selections url="/admin/updating" text="Chờ cập nhật..." />
 				</div>
 			</div>

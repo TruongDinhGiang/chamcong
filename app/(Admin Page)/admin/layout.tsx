@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="bg-slate-200 grid grid-cols-[15vw_85vw] grid-rows-[fit-content]">
+		<div className="bg-slate-200 grid grid-cols-[15vw_85vw] grid-rows-[100vh]">
 			<div className="sticky top-0">
 				<SideNav />
 			</div>

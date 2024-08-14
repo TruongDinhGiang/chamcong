@@ -22,7 +22,7 @@ export default function Page() {
 				<Image src={LOGO} alt="logo" className="h-[75%] w-auto" objectFit="fit" />
 			</header>
 			<hr className="border-black" />
-			<article className="grid grid-cols-2 grid-rows-1">
+			<article className="grid grid-cols-1 grid-rows-1">
 				<div id="chamcong" className="">
 					<p
 						style={JosefinSans.style}
@@ -48,7 +48,7 @@ export default function Page() {
 						</div>
 					</div>
 				</div>
-				<div id="dangkinghiphep" className="h-full">
+				{/* <div id="dangkinghiphep" className="h-full">
 					<p
 						style={JosefinSans.style}
 						className="m-2 py-[0.9rem] md:py-3 bg-black border border-black border-solid rounded-2xl text-white text-[1em] md:text-[1.25em] text-center select-none">
@@ -68,7 +68,7 @@ export default function Page() {
 							</button>
 						</form>
 					</div>
-				</div>
+				</div> */}
 			</article>
 			<article id="bangchamcongthang" className="">
 				{content}

@@ -7,21 +7,12 @@ const db = createKysely<any>();
 
 export async function GET(req: NextRequest) {
 	const username = 'Quảng';
-	const password = 'quangquang';
+	const password = '875984';
 	const role = 'Printer';
 
 	const result = bcrypt.genSalt(10, function (err, salt) {
 		const result = bcrypt.hash(password, salt, async function (err, password) {
 			const uuid = v6();
-			await db
-				.insertInto('accounts')
-				.values({
-					username: username,
-					password: password,
-					role: role,
-					UUID: v6(),
-				})
-				.executeTakeFirst();
 			return { data: err ? 'Failed' : 'Success' };
 		});
 		return result;
