@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
+import { revalidatePath } from 'next/cache';
 
 const db = createKysely<any>();
 
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
 		}
 	} catch {}
 
-	//*If user checkin, set the checkin time.
+	//*If user checkin, set the checkout time.
 	await db
 		.updateTable(tableName)
 		.set({
@@ -49,7 +50,17 @@ export async function POST(req: NextRequest) {
 		.where('Name', '=', currentUser)
 		.execute();
 
+	//*Update time to user's table
+	await db
+		.updateTable(currentUser)
+		.set({
+			Checkout: time,
+		})
+		.where('Days', '=', todayDay[1])
+		.execute();
+
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s
+	revalidatePath('/admin');
 	return NextResponse.json({ status: 200, success: true });
 	// return NextResponse.json(req.url);
 }

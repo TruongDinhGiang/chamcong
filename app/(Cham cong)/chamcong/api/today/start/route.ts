@@ -57,6 +57,15 @@ export async function POST(req: NextRequest) {
 			.executeTakeFirst();
 	});
 
+	//*Update time to user's table
+	await db
+		.updateTable(currentUser)
+		.set({
+			Checkin: time,
+		})
+		.where('Days', '=', date[1])
+		.execute();
+
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s
 	revalidatePath('/admin');
 	return NextResponse.json({ status: 200, success: true });

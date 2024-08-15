@@ -6,7 +6,6 @@ import { MutableRefObject, Suspense, useEffect, useRef, useState } from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 import loading from '@/public/GIF/loading2.gif';
-import _hasCookie from './api/today/hasCookie';
 
 async function CheckData(
 	path: string,

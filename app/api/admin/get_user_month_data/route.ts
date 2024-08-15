@@ -6,6 +6,6 @@ const db = createKysely<any>();
 export async function POST(req: NextRequest) {
 	const username = await req.json();
 	return NextResponse.json(
-		await db.selectFrom(username).select(['Checkin', 'Checkout']).orderBy('Days').execute()
+		await db.selectFrom(username).select(['Checkin', 'Checkout']).orderBy('Days', 'asc').execute()
 	);
 }

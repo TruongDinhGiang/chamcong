@@ -10,12 +10,16 @@ export async function GET(req: NextRequest) {
 	const password = '875984';
 	const role = 'Printer';
 
-	const result = bcrypt.genSalt(10, function (err, salt) {
-		const result = bcrypt.hash(password, salt, async function (err, password) {
-			const uuid = v6();
-			return { data: err ? 'Failed' : 'Success' };
-		});
-		return result;
-	});
-	return NextResponse.json({ result });
+	// await db.schema.dropTable('Thủy').execute();
+	// await db.schema.createTable('Thủy').execute();
+	// for(let )
+
+	// const result = bcrypt.genSalt(10, function (err, salt) {
+	// 	const result = bcrypt.hash(password, salt, async function (err, password) {
+	// 		const uuid = v6();
+	// 		return { data: err ? 'Failed' : 'Success' };
+	// 	});
+	// 	return result;
+	// });
+	return NextResponse.json('done');
 }
