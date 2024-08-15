@@ -34,14 +34,14 @@ export async function POST(req: NextRequest) {
 		.execute();
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
+	const Checker = await db
+		.selectFrom(tableName)
+		.select('Checkin')
+		.where('Name', '=', currentUser)
+		.executeTakeFirst();
+	console.log(Checker);
 	try {
-		if (
-			await db
-				.selectFrom(tableName)
-				.select('Checkin')
-				.where('Name', '=', currentUser)
-				.executeTakeFirst()
-		) {
+		if (Checker) {
 			return NextResponse.json({ status: 400, success: false });
 		}
 	} catch (e) {}

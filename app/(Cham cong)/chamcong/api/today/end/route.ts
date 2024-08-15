@@ -29,17 +29,17 @@ export async function POST(req: NextRequest) {
 	}
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
+	const Checker = await db
+		.selectFrom(tableName)
+		.select('Checkout')
+		.where('Name', '=', currentUser)
+		.executeTakeFirst();
+	console.log(Checker);
 	try {
-		if (
-			await db
-				.selectFrom(tableName)
-				.select('Checkout')
-				.where('Name', '=', currentUser)
-				.executeTakeFirst()
-		) {
+		if (Checker) {
 			return NextResponse.json({ status: 400, success: false });
 		}
-	} catch {}
+	} catch (e) {}
 
 	//*If user checkin, set the checkout time.
 	await db
