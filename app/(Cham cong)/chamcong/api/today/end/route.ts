@@ -5,9 +5,6 @@ import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
 
 const db = createKysely<any>();
-function toSecond(hour: string, min: string, sec: string): number {
-	return Number(hour) * 3600 + Number(min) * 60 + Number(sec);
-}
 
 export async function POST(req: NextRequest) {
 	//*Get user cookie data
@@ -31,15 +28,17 @@ export async function POST(req: NextRequest) {
 	}
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	if (
-		await db
-			.selectFrom(tableName)
-			.select('Checkout')
-			.where('Name', '=', currentUser)
-			.executeTakeFirst()
-	) {
-		return NextResponse.json({ status: 400, success: false });
-	}
+	try {
+		if (
+			await db
+				.selectFrom(tableName)
+				.select('Checkout')
+				.where('Name', '=', currentUser)
+				.executeTakeFirst()
+		) {
+			return NextResponse.json({ status: 400, success: false });
+		}
+	} catch {}
 
 	//*If user checkin, set the checkin time.
 	await db
@@ -49,19 +48,6 @@ export async function POST(req: NextRequest) {
 		})
 		.where('Name', '=', currentUser)
 		.execute();
-
-	await db
-		.updateTable(currentUser)
-		.set({
-			Checkout: time,
-		})
-		.where('Days', '=', todayDay[0])
-		.executeTakeFirst();
-
-	data.set('isCheckout', 'true', {
-		maxAge: toSecond('23', '59', '59') - toSecond(time[0], time[1], time[2]),
-		httpOnly: true,
-	});
 
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s
 	return NextResponse.json({ status: 200, success: true });

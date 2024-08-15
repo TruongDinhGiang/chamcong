@@ -5,7 +5,6 @@ import { cookies } from 'next/headers';
 import { createKysely } from '@vercel/postgres-kysely';
 
 import { _JsonArrayStringify } from '@/app/libs/actions';
-import { toSecond } from '@/app/libs/utilities';
 import { revalidatePath } from 'next/cache';
 
 const db = createKysely<any>();
@@ -35,15 +34,17 @@ export async function POST(req: NextRequest) {
 		.execute();
 
 	//*Check if user is checked yet, if yes then redirect user to home page. If not, create data
-	if (
-		await db
-			.selectFrom(tableName)
-			.select('Checkin')
-			.where('Name', '=', currentUser)
-			.executeTakeFirst()
-	) {
-		return NextResponse.json({ status: 400, success: false });
-	}
+	try {
+		if (
+			await db
+				.selectFrom(tableName)
+				.select('Checkin')
+				.where('Name', '=', currentUser)
+				.executeTakeFirst()
+		) {
+			return NextResponse.json({ status: 400, success: false });
+		}
+	} catch (e) {}
 
 	//*Insert username first, also checkin
 	await db.connection().execute(async (db) => {
@@ -53,22 +54,7 @@ export async function POST(req: NextRequest) {
 				Name: currentUser,
 				Checkin: time,
 			})
-			.execute();
-
-		await db
-			.updateTable(currentUser)
-			.set({
-				Checkin: time,
-			})
-			.where('Days', '=', date[0])
 			.executeTakeFirst();
-	});
-
-	const parsedTime = time.split(':');
-
-	cookie.set('isCheckin', 'true', {
-		maxAge: toSecond('23', '59', '59') - toSecond(parsedTime[0], parsedTime[1], parsedTime[2]),
-		httpOnly: true,
 	});
 
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s

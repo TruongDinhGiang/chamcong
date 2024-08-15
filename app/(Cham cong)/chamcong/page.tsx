@@ -14,21 +14,21 @@ async function CheckData(
 	data: MutableRefObject<number>,
 	router: AppRouterInstance
 ) {
-	//*If cookie is given, abort fetching data.
-	switch (query) {
-		case 'start': {
-			await _hasCookie('isCheckin').then((val) => {
-				if (val) data.current = 401;
-			});
-		}
-		case 'end': {
-			await _hasCookie('isCheckout').then((val) => {
-				if (val) data.current = 401;
-			});
-			break;
-		}
-	}
-	if (data.current == 401) router.replace('/home');
+	// //*If cookie is given, abort fetching data.
+	// switch (query) {
+	// 	case 'start': {
+	// 		await _hasCookie('isCheckin').then((val) => {
+	// 			if (val) data.current = 401;
+	// 		});
+	// 	}
+	// 	case 'end': {
+	// 		await _hasCookie('isCheckout').then((val) => {
+	// 			if (val) data.current = 401;
+	// 		});
+	// 		break;
+	// 	}
+	// }
+	// if (data.current == 401) router.replace('/home');
 
 	//*fetch userIP
 	await fetch(path + '/api/today/user_ip', {
@@ -49,7 +49,7 @@ async function CheckData(
 		})
 			.then((res) => res.json())
 			.then((val) => {
-				if (val.status == 200) {
+				if (val.success) {
 					router.replace('/chamcong/success');
 				} else {
 					router.replace('/home');
