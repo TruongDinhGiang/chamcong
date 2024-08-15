@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 		.executeTakeFirst();
 	console.log(Checker);
 	try {
-		if (Checker) {
+		if (Checker?.Checkout) {
 			return NextResponse.json({ status: 400, success: false });
 		}
 	} catch (e) {}
