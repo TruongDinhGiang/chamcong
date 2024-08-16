@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 			.select(['Checkout'])
 			.where('Name', '=', currentUser)
 			.executeTakeFirst();
-		console.log(`Start: ${Checker}`);
+		// console.log(`Start: ${Checker}`);
 		if (Checker?.Checkout) {
 			return NextResponse.json({ status: 400, success: false });
 		}
