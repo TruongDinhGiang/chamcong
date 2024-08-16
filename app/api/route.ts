@@ -10,6 +10,7 @@ const db = createKysely<any>();
 export async function GET(req: NextRequest) {
 	cookies().set('isCheckin', '', { maxAge: 1, httpOnly: false });
 	cookies().set('isCheckout', '', { maxAge: 1, httpOnly: false });
+	// await db.deleteFrom('D16M8').where('Name', '=', 'Thủy').execute();
 	// await db.schema.dropTable('Thủy').execute();
 	// await db.schema
 	// 	.createTable('Tùng')
