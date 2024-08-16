@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 			.select(['Checkin'])
 			.where('Name', '=', currentUser)
 			.executeTakeFirst();
-		console.log(`Start: ${Checker}`);
+		// console.log(`Start: ${Checker}`);
 		if (Checker?.Checkin) {
 			return NextResponse.json({ status: 400, success: false });
 		}
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
 		.set({
 			Checkin: time,
 		})
-		.where('Days', '=', date[1])
+		.where('Days', '=', date[0])
 		.execute();
 
 	//*After successfully check, redirect to success page and rediect back to /home page after 3s
