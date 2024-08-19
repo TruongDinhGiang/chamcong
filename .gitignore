@@ -37,8 +37,8 @@ yarn-error.log*
 next-env.d.ts
 
 #seeding user
-/seed/.*
-/api/configsql
+seed/**
+api/configsql/**
 
-#login api for testing
+#login api for testingg
 api/setcookie/route.ts
