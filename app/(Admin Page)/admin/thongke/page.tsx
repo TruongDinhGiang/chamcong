@@ -1,7 +1,8 @@
 'use client';
 
+import { GetTotalEmployee } from '@/app/libs/actions';
 import { GetCurrentDate, getTotalDayInCurrentMonth } from '@/app/libs/utilities';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 const date = GetCurrentDate().array;
 const totalDay = getTotalDayInCurrentMonth();
 
@@ -19,32 +20,41 @@ function ArrayGenerator(data: Array<any>) {
 
 export default function Page() {
 	const [TableArray, setTableArray] = useState<Array<any>>([]);
+	const [TotalEmployee, setTotalEmployee] = useState<Array<{ username: string }>>([
+		{ username: 'Đợi tí...' },
+	]);
+
+	useEffect(() => {
+		GetTotalEmployee().then((e) => {
+			setTotalEmployee(e);
+		});
+	}, []);
 
 	return (
 		<>
-			<div className="w-full h-screen flex flex-col">
+			<div className="w-full h-auto flex flex-col">
 				<p className="mt-5 text-4xl font-bold text-center">Bảng dữ liệu tháng {date[1]}</p>
-				<div className="flex gap-x-3 mx-3 my-5">
-					{['Thủy', 'Duyên', 'Tùng', 'Quảng'].map((e) => {
+				<div className="flex gap-y-1 gap-x-3 px-3 py-3 mb-5 w-full h-fit overflow-x-auto">
+					{TotalEmployee.map((e) => {
 						return (
 							<button
 								onClick={() => {
 									fetch('/api/admin/get_user_month_data', {
 										method: 'POST',
-										body: JSON.stringify(e),
+										body: JSON.stringify(e.username),
 									})
 										.then((res) => res.json())
 										.then((data) => setTableArray(ArrayGenerator(data)));
 								}}
 								type="button"
-								key={e}
-								className="transition-colors select-none w-full border border-solid border-black rounded-full focus:bg-black focus:text-white focus:cursor-pointer">
-								<p className="mx-auto my-2 w-fit">{e}</p>
+								key={e.username}
+								className="w-[115px] h-[45px] transition-colors select-none border border-solid border-black rounded-full focus:bg-black focus:text-white focus:cursor-pointer px-[35px] py-1">
+								<p className="mx-auto my-2 w-fit">{e.username}</p>
 							</button>
 						);
 					})}
 				</div>
-				<div className="overflow-auto flex flex-cols px-5 pb-5">
+				<div className="overflow-y-auto h-[600px] flex flex-cols px-5">
 					<div className="h-full w-full bg-white rounded-2xl overflow-y-scroll">
 						<Suspense fallback={'Đợi chút chíu'}>
 							<div className="flex flex-col ">

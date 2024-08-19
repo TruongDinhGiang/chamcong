@@ -47,15 +47,13 @@ export async function POST(req: NextRequest) {
 	} catch (e) {}
 
 	//*Insert username first, also checkin
-	await db.connection().execute(async (db) => {
-		await db
-			.insertInto(tableName)
-			.values({
-				Name: currentUser,
-				Checkin: time,
-			})
-			.executeTakeFirst();
-	});
+	await db
+		.insertInto(tableName)
+		.values({
+			Name: currentUser,
+			Checkin: time,
+		})
+		.executeTakeFirst();
 
 	//*Update time to user's table
 	await db

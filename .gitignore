@@ -27,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -36,9 +37,8 @@ yarn-error.log*
 next-env.d.ts
 
 #seeding user
-/seed
+/seed/.*
 /api/configsql
-/qrcode
 
 #login api for testing
-# api/setcookie/route.ts
+api/setcookie/route.ts

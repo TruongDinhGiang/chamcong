@@ -46,6 +46,17 @@ export async function getTodayTotalEmployee() {
 		return 0;
 	}
 }
+export async function GetTotalEmployee(): Promise<Array<any>> {
+	let result = await db.selectFrom('accounts').select(['username', 'role']).execute();
+	result = result.reduce((prev: any, current: any) => {
+		const arr = prev ? prev : [];
+		if (current.role !== 'Admin') {
+			arr.push({ username: current.username });
+		}
+		return arr;
+	}, []);
+	return result;
+}
 
 export async function updateSession() {
 	const currentUserName = cookies().get('currentUserName');
@@ -119,24 +130,18 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	if (!result) return status;
 
 	//*If success
-
-	//*Delete user checkin/checkout time after get into new month
-	await db.schema.dropTable(parsedData.data.username).ifExists().execute();
-
 	//*Create user checkin/checkout time for a month
 	db.schema
-		.createTable(parsedData.data.username)
+		.createTable(parsedData.data.username + DateInfo[1])
 		.ifNotExists()
 		.addColumn('Days', 'integer')
 		.addColumn('Checkin', 'text', (col) => col.defaultTo(null))
 		.addColumn('Checkout', 'text', (col) => col.defaultTo(null))
 		.execute();
 	for (let i = 1; i <= totalDay; i++) {
-		db.insertInto(parsedData.data.username)
+		db.insertInto(parsedData.data.username + DateInfo[1])
 			.values({
 				Days: i,
-				Checkin: null,
-				Checkout: null,
 			})
 			.executeTakeFirst();
 	}

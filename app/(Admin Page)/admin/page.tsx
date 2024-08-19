@@ -3,7 +3,7 @@ import { faUser as UserRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getTodayTotalEmployee } from '@/app/libs/actions';
 
-import RenderChart from '@/app/ui/Admin/RenderChart';
+import RenderChart from '@/app/(Admin Page)/admin/RenderChart';
 import TopDashboardDetail from './DashboardInfo';
 import { Meditative, roboto } from '@/app/ui/Style/Font/fonts';
 

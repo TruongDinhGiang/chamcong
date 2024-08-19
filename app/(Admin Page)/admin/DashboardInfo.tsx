@@ -15,7 +15,7 @@ function DashboardDetail({
 }: {
 	className?: string;
 	text: string;
-	data: number;
+	data: string;
 	icon: IconDefinition;
 }) {
 	return (
@@ -32,16 +32,16 @@ function DashboardDetail({
 }
 
 export default function TopDashboardDetail() {
-	const [TodayTotalEmployee, setTodayTotalEmployee] = useState(0);
+	const [TodayTotalEmployee, setTodayTotalEmployee] = useState('...');
 	const [init, setInit] = useState(true);
 
 	useEffect(() => {
 		if (init) {
-			getTodayTotalEmployee().then((x) => setTodayTotalEmployee(x));
+			getTodayTotalEmployee().then((x) => setTodayTotalEmployee(String(x)));
 			setInit(false);
 		} else {
 			setInterval(() => {
-				getTodayTotalEmployee().then((x) => setTodayTotalEmployee(x));
+				getTodayTotalEmployee().then((x) => setTodayTotalEmployee(String(x)));
 			}, 10000);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps

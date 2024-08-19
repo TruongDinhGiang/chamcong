@@ -1,7 +1,8 @@
 'use client';
 
 import { GetCurrentDate } from '@/app/libs/utilities';
-import { useRef } from 'react';
+import { GetTotalEmployee } from '@/app/libs/actions';
+import { useRef, useState, useEffect } from 'react';
 
 const date = GetCurrentDate().array;
 
@@ -9,6 +10,16 @@ export default function RenderChart() {
 	const NameElement = useRef<HTMLSpanElement>(null);
 	const StartTimeElement = useRef<HTMLSpanElement>(null);
 	const EndTimeElement = useRef<HTMLSpanElement>(null);
+
+	const [TotalEmployee, setTotalEmployee] = useState<Array<{ username: string }>>([
+		{ username: 'Đợi tí...' },
+	]);
+	useEffect(() => {
+		GetTotalEmployee().then((e) => {
+			console.log(e);
+			setTotalEmployee(e);
+		});
+	}, []);
 
 	return (
 		<div>
@@ -22,18 +33,18 @@ export default function RenderChart() {
 				})}
 			</p>
 			<div className="my-3 mx-auto w-[95%]">
-				<div className="w-full grid grid-cols-4 auto-rows-auto justify-items-center gap-3">
-					{['Thủy', 'Duyên', 'Tùng', 'Quảng'].map((e) => {
+				<div className="w-full flex overflow-x-auto gap-3">
+					{TotalEmployee.map((e) => {
 						return (
 							<button
 								onClick={() => {
-									NameElement.current!.innerText = e;
+									NameElement.current!.innerText = e.username;
 									StartTimeElement.current!.innerText = 'Đợi chút xíu...';
 									EndTimeElement.current!.innerText = 'Đợi chút xíu...';
 									fetch('/api/admin/get_user_info', {
 										method: 'POST',
 										body: JSON.stringify({
-											Name: e,
+											Name: e.username,
 											Day: date[0],
 										}),
 									})
@@ -48,9 +59,9 @@ export default function RenderChart() {
 										});
 								}}
 								// type="button"
-								key={e}
-								className="transition-colors select-none w-full border border-solid border-black rounded-full focus:bg-black focus:text-white focus:cursor-pointer">
-								<p className="mx-auto my-2 w-fit">{e}</p>
+								key={e.username}
+								className="transition-colors select-none w-[115px] px-[35px] border border-solid border-black rounded-full focus:bg-black focus:text-white focus:cursor-pointer">
+								<p className="mx-auto my-2 w-fit">{e.username}</p>
 							</button>
 						);
 					})}
