@@ -31,7 +31,7 @@ export default function Page() {
 
 	//*Remove the waiting GIF when submit form successful
 	useEffect(() => {
-		waitingMessage.current?.classList.replace('block', 'hidden');
+		waitingMessage.current?.classList.replace('flex', 'hidden');
 	}, [state]);
 
 	return (
@@ -42,7 +42,7 @@ export default function Page() {
 					//*on submit button click, appear the waiting GIF
 					onSubmit={() => {
 						if (waitingMessage.current) {
-							waitingMessage.current.classList.replace('hidden', 'block');
+							waitingMessage.current.classList.replace('hidden', 'flex');
 						}
 					}}
 					action={action}
@@ -78,12 +78,10 @@ export default function Page() {
 						{state.message}
 					</p>
 					{/* //*Loading GIF on waiting form */}
-					<Image
-						src={LoadingGIF}
-						alt="Loading GIF"
-						className="w-1/4 h-auto hidden"
-						ref={waitingMessage}
-					/>
+					<div className="w-fit h-1/4 hidden flex-col items-center" ref={waitingMessage}>
+						<Image src={LoadingGIF} alt="Loading GIF" className="w-1/4 h-auto" />
+						<p className="font-bold text-yellow-600">Xin vui lòng đợi đến khi thành công!</p>
+					</div>
 					<button
 						type="submit"
 						name="Submit"

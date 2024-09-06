@@ -6,22 +6,10 @@ import z from 'zod';
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
 
-import { getTotalDayInCurrentMonth, MonthDayToSecond } from './utilities';
-import data from './placeholder-data';
+import { getTotalDayInCurrentMonth, DayToSecond, DateInfo, TimeInfo } from './utilities';
 
 const db = createKysely<any>();
 const totalDay = getTotalDayInCurrentMonth();
-const DateInfo = new Date()
-	.toLocaleDateString('vi-vn', {
-		timeZone: 'Asia/Ho_Chi_Minh',
-	})
-	.split('/');
-const TimeInfo = new Date()
-	.toLocaleTimeString('vi-vn', {
-		timeZone: 'Asia/Ho_Chi_Minh',
-		timeStyle: 'medium',
-	})
-	.split(':');
 
 const schema = z.object({
 	username: z.string({
@@ -130,16 +118,31 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	if (!result) return status;
 
 	//*If success
+	const username = parsedData.data.username;
+
+	//*Check if new year (mean 1st January), then delete all data from old year.
+	if (DateInfo[0] == '1' && DateInfo[1] == '1') {
+		for (let i = 1; i <= 12; i++) {
+			await db.schema
+				.dropTable(username + String(i))
+				.ifExists()
+				.execute();
+		}
+	}
+
 	//*Create user checkin/checkout time for a month
-	db.schema
-		.createTable(parsedData.data.username + DateInfo[1])
+	await db.schema
+		.createTable(username + DateInfo[1])
 		.ifNotExists()
 		.addColumn('Days', 'integer')
 		.addColumn('Checkin', 'text', (col) => col.defaultTo(null))
 		.addColumn('Checkout', 'text', (col) => col.defaultTo(null))
 		.execute();
+
+	//*Insert into new table days data from 1 to 28/29/30/31 depends on current month
 	for (let i = 1; i <= totalDay; i++) {
-		db.insertInto(parsedData.data.username + DateInfo[1])
+		await db
+			.insertInto(username + DateInfo[1])
 			.values({
 				Days: i,
 			})
@@ -147,22 +150,11 @@ export async function handleLogin(prevState: State, formData: FormData) {
 	}
 
 	//*Calculate expire time for cookie
-	const date = new Date()
-		.toLocaleDateString('vi-vn', {
-			timeZone: 'Asia/Ho_Chi_Minh',
-		})
-		.split('/');
-	const time = new Date()
-		.toLocaleTimeString('vi-vn', {
-			timeZone: 'Asia/Ho_Chi_Minh',
-			timeStyle: 'medium',
-		})
-		.split(':');
 	const CookieExpireTime =
-		MonthDayToSecond(String(totalDay), '23', '59', '59') -
-		MonthDayToSecond(date[0], time[0], time[1], time[2]);
+		DayToSecond(String(totalDay), '23', '59', '59') -
+		DayToSecond(DateInfo[0], TimeInfo[0], TimeInfo[1], TimeInfo[2]);
 
-	cookies().set('currentUserName', parsedData.data.username, {
+	cookies().set('currentUserName', username, {
 		maxAge: CookieExpireTime,
 	});
 	cookies().set('currentUserRole', role, {

@@ -4,7 +4,7 @@ import './ui/Style/final.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'Home page',
+	title: 'Công ty TNHH Hiếu Ngọc Design',
 };
 
 export default function RootLayout({

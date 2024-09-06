@@ -28,11 +28,11 @@ export function getTotalDayInCurrentMonth(): 31 | 30 | 29 | 28 {
 	return totalDay;
 }
 
-export function MonthDayToSecond(day: string, hour: string, min: string, sec: string) {
+export function DayToSecond(day: string, hour: string, min: string, sec: string) {
 	return Number(day) * 24 * 3600 + Number(hour) * 3600 + Number(min) * 60 + Number(sec);
 }
 
-export function toSecond(hour: string, min: string, sec: string): number {
+export function HourToSecond(hour: string, min: string, sec: string): number {
 	return Number(hour) * 3600 + Number(min) * 60 + Number(sec);
 }
 
@@ -45,3 +45,26 @@ export function GetCurrentDate() {
 		array: date.split('/'),
 	};
 }
+
+/**
+ * *[0]:Day
+ * *[1]:Month
+ * *[2]:Year
+ */
+export const DateInfo = new Date()
+	.toLocaleDateString('vi-vn', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+	})
+	.split('/');
+
+/**
+ * *[0]:Hour
+ * *[1]:Minute
+ * *[2]:Second
+ */
+export const TimeInfo = new Date()
+	.toLocaleTimeString('vi-vn', {
+		timeZone: 'Asia/Ho_Chi_Minh',
+		timeStyle: 'medium',
+	})
+	.split(':');

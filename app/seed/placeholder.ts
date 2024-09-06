@@ -5,8 +5,8 @@ export const User = [
 		role: 'Admin',
 	},
 	{
-		username: 'xuanthinh5612',
-		password: '0908510752thinh',
-		role: 'Worker',
+		username: 'Trinh',
+		password: 'trinhtrinh',
+		role: 'Admin',
 	},
 ];

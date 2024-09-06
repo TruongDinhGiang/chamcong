@@ -19,7 +19,13 @@ function ArrayGenerator(data: Array<any>) {
 }
 
 export default function Page() {
-	const [TableArray, setTableArray] = useState<Array<any>>([]);
+	const [TableArray, setTableArray] = useState<Array<any>>([
+		{
+			Day: 'Không có',
+			Checkin: 'Không có',
+			Checkout: 'Không có',
+		},
+	]);
 	const [TotalEmployee, setTotalEmployee] = useState<Array<{ username: string }>>([
 		{ username: 'Đợi tí...' },
 	]);
